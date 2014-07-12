@@ -1,0 +1,66 @@
+#container
+{    
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+}
+#content
+{
+    padding-top: 25px;    
+    margin:auto;
+    text-align: center;
+    background-color:#E6E6E6;
+    height:auto;
+    width:1100px;
+    padding-bottom: 25px;
+}
+
+#cssTable td 
+{
+    text-align:center; 
+    vertical-align:middle;
+}
+
+#add.k-button
+{
+    width: 20%;
+    height: 10%;    
+    background-color: LimeGreen;
+}
+
+#listName ul 
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.bt-info
+{
+    width: 90%;
+    height: 70%;
+}
+
+#table1 table 
+{
+    width: 100%;
+}
+#table1 tr 
+{
+    height: 100px;    
+}
+#table1 td 
+{
+    width: 300px; 
+}
+
+#baseInfoContainer
+{    
+    text-align: left;
+    padding-top: 30px;
+    width: 70%;
+}
+
+li
+{
+    list-style-type: none;
+}
