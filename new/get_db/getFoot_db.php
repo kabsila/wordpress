@@ -17,11 +17,17 @@ $updateFootDate = filter_input(INPUT_POST, "updateFootDate");
 if ($verb == "GET") {
     $id = filter_input(INPUT_GET, "id");
     $arr = array();
-    $rs = mysql_query("SELECT * FROM foot WHERE id = $id");
+   
+    $rs = mysql_query("SELECT foot.*,max(lab_result.HbA1C) AS HbA1C ,max(lab_result.FBS) AS FBS,general_info.age,"
+            . "general_info.status, general_info.smoke,general_info.tai_y "
+            . "FROM foot,general_info,lab_result "
+            . "WHERE lab_result.id = general_info.ID "
+            . "AND foot.id = general_info.ID AND general_info.ID = $id;");
+    
     while ($obj = mysql_fetch_object($rs)) {
-
         $arr[] = $obj;
     }   
+    //$arr = array_merge($arr, $arr3);
     //echo "{\"data\":" . json_encode($arr) . "}";
     
     //unset($arr);

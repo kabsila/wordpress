@@ -1,56 +1,4 @@
 
-<script type="text/x-kendo-template" id="footDateTemplate">
-    <div>
-    <div class="actionButton">
-    <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>
-    <!--<a class="k-button k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>-->
-    </div>
-    <table class="allTable" id="footTable" border="1" align="center">
-    <tr align="center">
-    <td><pre><h2>ประวัติการตรวจเท้า foot examination</h2></pre>
-        <pre>***(ผู้ป่วยเบาหวานทุกรายควรได้รับการตรวจเท้าอย่างละเอียด อย่างน้อยปีละ 1 ครั้ง)</pre>
-    </td>
-    </tr>
-<tr><td>ประวัติการตรวจเท้าและผลการตรวจ</td>
-</tr>
-<tr>
-<td>footDateTemplate</td>
-<td>footDateTemplate</td>
-<td>
- 
-</td>
-</tr>
-    </table>
-
-
-    </div>
-</script>
-<script type="text/x-kendo-template" id="editFootDateTemplate">
-    <div>
-    <div class="actionButton">
-    <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>
-    <!--<a class="k-button k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>-->
-    </div>
-    <table class="allTable" id="footTable" border="1" align="center">
-    <tr align="center">
-    <td><pre><h2>ประวัติการตรวจเท้า foot examination</h2></pre>
-        <pre>***(ผู้ป่วยเบาหวานทุกรายควรได้รับการตรวจเท้าอย่างละเอียด อย่างน้อยปีละ 1 ครั้ง)</pre>
-    </td>
-    </tr>
-<tr><td>ประวัติการตรวจเท้าและผลการตรวจ</td>
-</tr>
-<tr>
-<!--<td></td>
-<td></td>-->
-<td>
- 
-</td>
-</tr>
-    </table>
-
-
-    </div>
-</script>
 <script type="text/x-kendo-template" id="footTemplate">
     <div>
     <div class="actionButton">
@@ -59,15 +7,77 @@
     </div>
     <table class="allTable" id="footTable" border="1" align="center">
     <tr align="center">
-    <td><pre><h2>ประวัติการตรวจเท้า foot examination</h2></pre>
-        <pre>***(ผู้ป่วยเบาหวานทุกรายควรได้รับการตรวจเท้าอย่างละเอียด อย่างน้อยปีละ 1 ครั้ง)</pre>
+    <td>
+    <pre>
+    <h2>ประวัติการตรวจเท้า foot examination</h2>
+    </pre>
+    <pre>***(ผู้ป่วยเบาหวานทุกรายควรได้รับการตรวจเท้าอย่างละเอียด อย่างน้อยปีละ 1 ครั้ง)
+    </pre>
     </td>
     </tr>
 <tr><td>ประวัติการตรวจเท้าและผลการตรวจ</td>
 </tr>
 <tr>
-<td>#:foot1#</td>
-<td>#:foot2#</td>
+<td>ปัจจัยเสี่ยงต่อการเกิดแผลที่เท้า</td>
+</tr>
+<tr>
+<td>
+#if(foot1){#
+    <pre>ประวัติเคยมีแผลที่เท้าหรือถูกตัดขาหรืเท้ามาก่อน</pre>
+    #}#
+#if(foot2){#
+    <pre>มีภาวะแทรกซ้อนที่เส้นประสาทจากเบาหวาน</pre>
+    #}#
+#if(foot3){#
+    <pre>มีหลอดเลือดส่วนปลายที่ขาตีบ</pre>
+    #}#
+#if(foot4){#
+    <pre>มีจอประสาทตาผิดปกติจากเบาหวานและสายตาเสื่อม</pre>
+    #}#
+#if(foot5){#
+    <pre>เท้าผิดรูป (foot deformities)</pre>
+    #}#
+#if(foot6){#
+    <pre>หนังแข็ง (callus) ใต้ฝ่าเท้า</pre>
+    #}#
+#if(foot7){#
+    <pre>เล็บผิดปกติ</pre>
+    #}#
+#if(foot8){#
+    <pre>ชีพจรเบาลง (การคลำชีพจรที่ขาและเท้าตำแหน่ง femoral, doralis pedis และ posterior tibial ทั้ง 2 ข้าง)</pre>
+    #}#
+#if(foot9){#
+    <pre>การรับความรู้สึกลดลง (ตรวจด้วย monofilament + ภาพแสดงตำแหน่งการตรวจ)</pre>
+    #}#
+#if(foot10){#
+    <pre>รองเท้าไม่เหมาะสม</pre>
+    #}#
+#if(foot11){#
+    <pre>มีพฤติกรรมดูและเท้าไม่ถูกต้อง</pre>
+    #}#
+#if(foot12){#
+    <pre>ระยะเวลาเป็นโรคเบาหวานมากกว่า 10 ปี</pre>
+    #}#
+#if(FBS > 200){#
+    <pre>ระดับน้ำตาลในเลือดขณะอดอาหารสูง</pre>
+    #}#
+#if(HbA1C > 7){#
+    <pre>ระดับ HbA1C สูง</pre>
+    #}#
+#if(age > 60){#
+    <pre>อายุมากกว่า 60 ปี</pre>
+    #}#
+#if(status === "nay"){#
+    <pre>เพศชาย</pre>
+    #}#
+#if(smoke !== "cancelSmoke"){#
+    <pre>สูบบุหรี่</pre>
+    #}#
+#if(tai_y){#
+    <pre>มีภาวะแทรกซ้อนที่ไตจากเบาหวาน</pre>
+    #}#
+</td>
+
 
 </tr>
     </table>

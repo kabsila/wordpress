@@ -37,7 +37,7 @@ if ($verb == "POST") {
         <script src="js/kendo.all.min.js"></script>
         <script src="js/cultures/kendo.culture.th-TH.min.js"></script>
         <script src="js/templateLoader.js"></script>
-
+        <script src="js/load-image.min.js"></script>
         <link href="css/index.css" rel="stylesheet" />
         <link href="css/info.css" rel="stylesheet" />
         <style>
@@ -181,7 +181,7 @@ if ($verb == "POST") {
     </script>
     <script>
         templateLoader.loadExtTemplate("infoTemplate/_foot.tmpl.html");
-        var keepId = <?php echo json_encode($id); ?>;
+        
         var dataSourceFootDate = new kendo.data.DataSource({
             transport: {
                 read: {
@@ -258,7 +258,11 @@ if ($verb == "POST") {
                         foot9: {type: "boolean"},
                         foot10: {type: "boolean"},
                         foot11: {type: "boolean"},
-                        foot12: {type: "boolean"}
+                        foot12: {type: "boolean"},
+                        FBS: {type: "number"},
+                        HbA1C: {type: "number"},
+                        tai_y: {type: "boolean"},
+                        age: {type: "number"}
 
 
                     }
@@ -270,27 +274,7 @@ if ($verb == "POST") {
 
 
 
-        $(document).on("TEMPLATE_LOADED", function() {
-
-            /** var data = new Array();
-             dataSourceFoot.fetch(function() {
-             data = dataSourceFoot.data();
-             
-             });
-             
-             var template = kendo.template($("#footTemplate").html());
-             var result = template(data); //Execute the template
-             //Append the result**/
-
-            /**  $("#footDate").kendoListView({
-             template: kendo.template($("#footDateTemplate").html()),
-             editTemplate: kendo.template($("#editFootDateTemplate").html()),
-             dataSource: dataSourceFootDate,
-             edit: function(e) {
-             
-             }
-             
-             });**/
+        $(document).on("TEMPLATE_LOADED", function() {           
 
             $("#footInfo").kendoListView({
                 template: kendo.template($("#footTemplate").html()),
