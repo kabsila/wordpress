@@ -1,0 +1,425 @@
+<script type="text/x-kendo-template" id="baseInfoTemplate">
+    <div>
+    <div class="actionButton">
+    <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>
+    <!--<a class="k-button k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>-->
+    </div>
+    <table class="allTable" id="baseInfoTable" border="1" align="center">
+    <tr align="center">
+    <td><strong>ชื่อ</strong></td>
+    <td><strong>นามสกุล</strong></td>
+    <td><strong>อายุ</strong></td>
+    <td><strong>สถานภาพสมรส</strong></td>                       
+    </tr>    
+    <tr align="center">
+    <td>#:name#</td>
+    <td>#:sname#</td>
+    <td>#:age#</td>
+    <td>#:#</td>
+    </tr>
+    <tr>
+    <td colspan="4"></td>
+    </tr>
+    <tr align="center">
+    <td><strong>จำนวนสมาชิกในครอบครัว</strong></td>
+    <td><strong>จำนวนผู้ดูแล</strong></td>
+    <td><strong>ผู้ดูแลหลัก</strong></td>
+    <td><strong>สัมพัธภาพในครอบครัว</strong></td>                       
+    </tr>
+    <tr align="center">
+    <td>#:number_f#</td>
+    <td>#:number_d#</td>
+    <td>#:name_d#</td>
+    <td>#:relation#</td>
+    </tr>
+    <tr>
+    <td colspan="4"></td>
+    </tr>
+    <tr align="center">
+    <td colspan="2"><strong>การสูบบุหรี่</strong></td>
+    <td colspan="2"><strong>โรคร่วม</strong></td>                                   
+    </tr>
+    <tr align="center">
+    <td colspan="2">
+    #if(smoke === 'cancelSmoke'){#
+    # var date = new Date(whenCancelSmoke);#
+    # mnth = ("0" + (date.getMonth()+1)).slice(-2);#
+    # day  = ("0" + date.getDate()).slice(-2);#
+    # var datee = [day , mnth, date.getFullYear()].join("-");#
+    <pre>เลิกสูบบุหรี่เมื่อ #=datee#</pre>
+    #}else if(smoke === 'stillSmoke'){#
+    <pre>ยังสูบบุหรี่ ปริมาณ #:numberSmoke# มวนต่อวัน</pre>        
+    #}else{#
+    <pre>ไม่เคยสูบ</pre>
+    #}#
+    </td>
+    <td colspan="2">
+    #if(h_blood){#
+    <pre>ความดันโลหิตสูง</pre>
+    #}#
+
+    #if(tai_y){#
+    <pre>ไตวาย</pre>
+    #}#
+
+    #if(h_fail){#
+    <pre>หัวใจล้มเหลว</pre>
+    #}#
+
+    #if(hi_fat){#
+    <pre>ไขมันในเลือดสูง</pre>
+    #}#
+
+    #if(h_lost_blood){#
+    <pre>หัวใจขาดเลือด</pre>
+    #}#
+
+    #if(h_big){#
+    <pre>กล้ามเนื้อหัวใจโต</pre>
+    #}#
+
+    #if(cabg){#
+    <pre>CABG</pre>
+    #}#
+
+    #if(brain_blood){#
+    <pre>โรคหลอดเลือดสมอง</pre>
+    #}#        
+    <pre>#:other#</pre>
+    </td>            
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <h3>การสอบถามเกี่ยวกับพฤติกรรมการดูแลตนเองในด้านต่าง ๆ</h3>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <h4>ด้านอาหาร</h4>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ใน 1 วันท่านรับประทานอาหารอะไรบ้าง ปริมาณเท่าใด</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:oneDayFood#</td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีการจัดการเกี่ยวกับการรับประทานอาหารอย่างไร (ปรุงเองหรือซื้อรับประทาน เป็นต้น)</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:manageFood#</td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านรู้สึกอย่างไรต่อการปรับเปลี่ยนการรับประทานอาหารให้เป็นไปตามแผนการรักษา</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:planFood#</td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีอุปสรรคปัญหาใดบ้างที่ขัดขวางการรับประทานอาหารเพื่อให้เป็นไปตามแผนการรักษา</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:jamFood#</td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <h4>ด้านการใช้ยา</h4>
+    </td>
+    </tr>            
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านรับประทานยาอะไรบ้าง</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:eatYa#</td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีอุปสรรคปัญหาในการใช้ยาหรือไม่ อย่างไร</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:jamYa#</td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านเคยลืมรับประทานยาหรือไม่ มีวิธีแก้ไขอย่างไรเพื่อไม่ให้ลืมรับประทานยา</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:forgetYa#</td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านเคยมีอาการไม่พึ่งประสงค์จากการใช้ยาหรือไม่ อย่างไร และท่านทำการแก้ไขอย่างไร</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:dislikeYa#</td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีอุปสรรคปัญหาในการรับยาให้เป็นไปตามแผนการรักษาหรือไม่ อย่างไร</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:jamRecYa#</td>
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <h4>ด้านการออกกำลังกาย</h4>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านออกกำลังกายด้วยวิธีใด แต่ละครั้งนานเท่าใด และใน 1 สัปดาห์ท่านออกกำลังกายกี่วัน</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:howWorkout#</td>
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีปัญหา อุปสรรคในการรับยาให้เป็นไปตามแผนการักษาหรือไม่ อย่างไร</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:jamWorkout#</td>
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <h4>การสังเกตภาวะผิดปกติเกี่ยวกับระดับน้ำตาลในเลือด</h4>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านเคยมีอาการตาลาย ใจสั่น เหงื่อออก ตัวเย็น รู้สึกหิวบ้างหรือไม่ ท่านคิดว่าเกิดจากสาเหตุใด ท่านทำการแก้ไขอย่างไร วิธีนั้นได้ผลหรือไม่</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:sugarBlood1#</td>
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านเคยมีอาการหน้ามืด ตาลาย ปากแห้ง กระหายน้ำบ่อย ปัสสาวะโดยเฉพาะตอนกลางคืนบ้างหรือไม่ ท่านคิดว่าเกิดจากสาเหตุใด ท่านทำการแก้ไขอย่างไร วิธีนั้นได้ผลหรือไม่</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4">#:sugarBlood2#</td>
+    </tr>
+    </table>
+
+
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="editBaseInfoTemplate">
+    <div>
+    <div class="actionButton">
+    <a class="k-button k-update-button" href="\\#"><span class="k-icon k-update"></span>บันทึก</a>
+    <a class="k-button k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>ยกเลิก</a>
+    </div>
+    <table class="allTable" id="baseInfoTable" border="1" align="center">
+    <tr align="center">
+    <td><strong>ชื่อ</strong></td>
+    <td><strong>นามสกุล</strong></td>
+    <td><strong>อายุ</strong></td>
+    <td><strong>สถานภาพสมรส</strong></td>                       
+    </tr>    
+    <tr align="center">
+    <td><input type="text" class="k-textbox" data-bind="value:name" name="name"/></td>
+    <td><input type="text" class="k-textbox" data-bind="value:sname" name="sname"/></td>
+    <td><input type="text" class="k-textbox" data-bind="value:age" name="age"/></td>
+    <td><input type="text" class="k-textbox" data-bind="value:somros" name="somros"/></td>
+    </tr>
+    <tr>
+    <td colspan="4"></td>
+    </tr>
+    <tr align="center">
+    <td><strong>จำนวนสมาชิกในครอบครัว</strong></td>
+    <td><strong>จำนวนผู้ดูแล</strong></td>
+    <td><strong>ผู้ดูแลหลัก</strong></td>
+    <td><strong>สัมพัธภาพในครอบครัว</strong></td>                       
+    </tr>
+    <tr align="center">
+    <td><input type="text" class="k-textbox" data-bind="value: number_f" name="number_f"/></td>
+    <td><input type="text" class="k-textbox" data-bind="value: number_d" name="number_d"/></td>
+    <td><input type="text" class="k-textbox" data-bind="value: name_d" name="name_d"/></td>
+    <td><input type="text" class="k-textbox" data-bind="value: relation" name="relation"/></td>
+    </tr>
+    <tr>
+    <td colspan="4"></td>
+    </tr>
+    <tr align="center">
+    <td colspan="2"><strong>การสูบบุหรี่</strong></td>
+    <td colspan="2"><strong>โรคร่วม</strong></td>                                   
+    </tr>
+    <tr align="left">
+    <td colspan="2">
+    <pre><input type="radio" value="noSmoke"   name="smoke" data-bind="" />ไม่เคยสูบบุหรี่</pre>
+    <pre><input type="radio" value="cancelSmoke" name="smoke" data-bind="" />เลิกสูบบุหรี<label>&nbsp;เมื่อ&nbsp;<input id="datePicker" data-bind="value:whenCancelSmoke" name="whenCancelSmoke"/></label></pre>
+    <pre><input type="radio" value="stillSmoke"  name="smoke" data-bind="" />ยังสูบบุหรี่<label>&nbsp;ปริมาณ&nbsp;<input type="text" class="k-textbox" data-bind="value:numberSmoke" name="numberSmoke"/>&nbsp;มวลต่อวัน</label></pre>
+    </td>
+    <td colspan="2">
+    <pre><input type="checkbox" name="h_blood" data-bind="checked: h_blood"/>ความดันโลหิตสูง</pre>
+    <pre><input type="checkbox" name="tai_y" data-bind="checked: tai_y"/>ไขมันในเลือดสูง</pre>
+    <pre><input type="checkbox" name="h_fail" data-bind="checked: h_fail"/>โรคหัวใจวาย</pre>
+    <pre><input type="checkbox" name="hi_fat" data-bind="checked: hi_fat"/>ไขมันในเลือดสูง</pre>        
+    <pre><input type="checkbox" name="h_lost_blood" data-bind="checked: h_lost_blood"/>หัวใจขาดเลือด</pre>
+    <pre><input type="checkbox" name="h_big" data-bind="checked: h_big"/>กล้ามเนื้อหัวใจโต</pre>
+    <pre><input type="checkbox" name="cabg" data-bind="checked: cabg"/>CABG</pre>
+    <pre><input type="checkbox" name="brain_blood" data-bind="checked: brain_blood"/>โรคหลอดเลือดสมอง</pre>
+    <pre>อื่น ๆ ระบุ <input size="40" type="text" class="k-textbox" name="other" data-bind="value: other" style="width: 400px;"/></pre>
+    </td>            
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <h3>การสอบถามเกี่ยวกับพฤติกรรมการดูแลตนเองในด้านต่าง ๆ</h3>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <h4>ด้านอาหาร</h4>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ใน 1 วันท่านรับประทานอาหารอะไรบ้าง ปริมาณเท่าใด</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: oneDayFood" style="width: 90%; height: 50px;"></textarea>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีการจัดการเกี่ยวกับการรับประทานอาหารอย่างไร (ปรุงเองหรือซื้อรับประทาน เป็นต้น)</strong>
+    </td>            
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: manageFood" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านรู้สึกอย่างไรต่อการปรับเปลี่ยนการรับประทานอาหารให้เป็นไปตามแผนการรักษา</strong></td>            
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: planFood" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีอุปสรรคปัญหาใดบ้างที่ขัดขวางการรับประทานอาหารเพื่อให้เป็นไปตามแผนการรักษา</strong></td>            
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: jamFood" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>            
+    <tr align="center">
+    <td colspan="4">
+    <h4>ด้านการใช้ยา</h4>
+    </td>
+    </tr>            
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านรับประทานยาอะไรบ้าง</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: eatYa" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีอุปสรรคปัญหาในการใช้ยาหรือไม่ อย่างไร</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: jamYa" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านเคยลืมรับประทานยาหรือไม่ มีวิธีแก้ไขอย่างไรเพื่อไม่ให้ลืมรับประทานยา</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: forgetYa" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านเคยมีอาการไม่พึ่งประสงค์จากการใช้ยาหรือไม่ อย่างไร และท่านทำการแก้ไขอย่างไร</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: dislikeYa" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>    
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีอุปสรรคปัญหาในการรับยาให้เป็นไปตามแผนการรักษาหรือไม่ อย่างไร</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: jamRecYa" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <h4>ด้านการออกกำลังกาย</h4>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านออกกำลังกายด้วยวิธีใด แต่ละครั้งนานเท่าใด และใน 1 สัปดาห์ท่านออกกำลังกายกี่วัน</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: howWorkout" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านมีปัญหา อุปสรรคในการรับยาให้เป็นไปตามแผนการักษาหรือไม่ อย่างไร</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: jamWorkout" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <h4>การสังเกตภาวะผิดปกติเกี่ยวกับระดับน้ำตาลในเลือด</h4>
+    </td>
+    </tr>
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านเคยมีอาการตาลาย ใจสั่น เหงื่อออก ตัวเย็น รู้สึกหิวบ้างหรือไม่ ท่านคิดว่าเกิดจากสาเหตุใด ท่านทำการแก้ไขอย่างไร วิธีนั้นได้ผลหรือไม่</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: sugarBlood1" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>
+
+    <tr align="center">
+    <td colspan="4">
+    <strong>ท่านเคยมีอาการหน้ามืด ตาลาย ปากแห้ง กระหายน้ำบ่อย ปัสสาวะโดยเฉพาะตอนกลางคืนบ้างหรือไม่ ท่านคิดว่าเกิดจากสาเหตุใด ท่านทำการแก้ไขอย่างไร วิธีนั้นได้ผลหรือไม่</strong>
+    </td> 
+    </tr>
+    <tr align="center">
+    <td colspan="4"><textarea data-bind="value: sugarBlood2" style="width: 90%; height: 50px;"></textarea></td>
+    </tr>
+
+    </table>           
+    </div>
+</script>

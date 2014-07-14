@@ -12,12 +12,10 @@ mysql_query("SET NAMES UTF8");
 $verb = filter_input(INPUT_SERVER, "REQUEST_METHOD");
 $id = filter_input(INPUT_GET, "id");
 //$verb = $_SERVER["REQUEST_METHOD"];
-
-if ($verb == "GET") {
-    echo $verb;
-    echo $id;
-}
-
+//if ($verb == "GET") {
+//echo $verb;
+//  echo $id;
+//}
 // handle a POST  
 if ($verb == "POST") {
     echo $verb;
@@ -38,6 +36,7 @@ if ($verb == "POST") {
         <script src="js/kendo.web.min.js"></script>
         <script src="js/kendo.all.min.js"></script>
         <script src="js/cultures/kendo.culture.th-TH.min.js"></script>
+        <script src="js/templateLoader.js"></script>
 
         <link href="css/index.css" rel="stylesheet" />
         <link href="css/info.css" rel="stylesheet" />
@@ -51,126 +50,8 @@ if ($verb == "POST") {
     </head>
     <body>
 
-        <script type="text/x-kendo-tmpl" id="template">
-            <div>
-            <div class="actionButton">
-            <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>
-            <!--<a class="k-button k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>-->
-            </div>
-            <table id="baseInfoTable" border="1" align="center">
-            <tr align="center">
-            <td><strong>ชื่อ</strong></td>
-            <td><strong>นามสกุล</strong></td>
-            <td><strong>อายุ</strong></td>
-            <td><strong>สถานภาพสมรส</strong></td>                       
-            </tr>    
-            <tr align="center">
-            <td>#:name#</td>
-            <td>#:sname#</td>
-            <td>#:age#</td>
-            <td>#:#</td>
-            </tr>
-            <tr>
-            <td colspan="4"></td>
-            </tr>
-            <tr align="center">
-            <td><strong>จำนวนสมาชิกในครอบครัว</strong></td>
-            <td><strong>จำนวนผู้ดูแล</strong></td>
-            <td><strong>ผู้ดูแลหลัก</strong></td>
-            <td><strong>สัมพัธภาพในครอบครัว</strong></td>                       
-            </tr>
-            <tr align="center">
-            <td>#:number_f#</td>
-            <td>#:number_d#</td>
-            <td>#:name_d#</td>
-            <td>#:relation#</td>
-            </tr>
-            <tr>
-            <td colspan="4"></td>
-            </tr>
-            <tr align="center">
-            <td colspan="2"><strong>การสูบบุหรี่</strong></td>
-            <td colspan="2"><strong>โรคร่วม</strong></td>                                   
-            </tr>
-            <tr align="center">
-            <td colspan="2">#:smoke#</td>
-            <td colspan="2">
-            <pre>#:h_blood#</pre>
-            <pre>#:tai_y#</pre>
-            <pre>#:h_fail#</pre>
-            <pre>#:hi_fat#</pre>
-            <pre>#:h_lost_blood#</pre>
-            <pre>#:h_big#</pre>
-            <pre>#:cabg#</pre>
-            <pre>#:brain_blood#</pre>
-            </td>            
-            </tr>
-            </table>
 
-            </div>
-        </script>
 
-        <script type="text/x-kendo-tmpl" id="editTemplate">
-            <div>
-            <div class="actionButton">
-            <a class="k-button k-update-button" href="\\#"><span class="k-icon k-update"></span>บันทึก</a>
-            <a class="k-button k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>ยกเลิก</a>
-            </div>
-            <table id="baseInfoTable" border="1" align="center">
-            <tr align="center">
-            <td><strong>ชื่อ</strong></td>
-            <td><strong>นามสกุล</strong></td>
-            <td><strong>อายุ</strong></td>
-            <td><strong>สถานภาพสมรส</strong></td>                       
-            </tr>    
-            <tr align="center">
-            <td><input type="text" class="k-textbox" data-bind="value:name" name="name"/></td>
-            <td><input type="text" class="k-textbox" data-bind="value:sname" name="sname"/></td>
-            <td><input type="text" class="k-textbox" data-bind="value:age" name="age"/></td>
-            <td><input type="text" class="k-textbox" data-bind="value:somros" name="somros"/></td>
-            </tr>
-            <tr>
-            <td colspan="4"></td>
-            </tr>
-            <tr align="center">
-            <td><strong>จำนวนสมาชิกในครอบครัว</strong></td>
-            <td><strong>จำนวนผู้ดูแล</strong></td>
-            <td><strong>ผู้ดูแลหลัก</strong></td>
-            <td><strong>สัมพัธภาพในครอบครัว</strong></td>                       
-            </tr>
-            <tr align="center">
-            <td><input type="text" class="k-textbox" data-bind="value: number_f" name="number_f"/></td>
-            <td><input type="text" class="k-textbox" data-bind="value: number_d" name="number_d"/></td>
-            <td><input type="text" class="k-textbox" data-bind="value: name_d" name="name_d"/></td>
-            <td><input type="text" class="k-textbox" data-bind="value: relation" name="relation"/></td>
-            </tr>
-            <tr>
-            <td colspan="4"></td>
-            </tr>
-            <tr align="center">
-            <td colspan="2"><strong>การสูบบุหรี่</strong></td>
-            <td colspan="2"><strong>โรคร่วม</strong></td>                                   
-            </tr>
-            <tr align="left">
-            <td colspan="2">
-            <pre><input type="radio" value="noSmoke"   name="smoke" data-bind="checked: selectedColor" />ไม่เคยสูบบุหรี่</pre>
-            <pre><input type="radio" value="cancelSmoke" name="smoke" data-bind="checked: selectedColor" />เลิกสูบบุหรี<label>&nbsp;เมื่อ&nbsp;<input id="datePicker" data-bind="value:whenCancleSmoke" name="whenCancleSmoke"/></label></pre>
-            <pre><input type="radio" value="stillSmoke"  name="smoke" data-bind="checked: selectedColor" />ยังสูบบุหรี่<label>&nbsp;ปริมาณ&nbsp;<input size="20" type="text" class="k-textbox" data-bind="value:smokeNumber" name="smokeNumber"/>&nbsp;มวลต่อวัน</label></pre>
-            </td>
-            <td colspan="2">
-            <pre><input type="checkbox" name="h_blood" data-bind="checked: h_blood"/>ความดันโลหิตสูง</pre>
-            <pre><input type="checkbox" name="hi_fat" data-bind="checked: hi_fat"/>ไขมันในเลือดสูง</pre>
-            <pre><input type="checkbox" name="h_fail" data-bind="checked: h_fail"/>โรคหัวใจวาย</pre>
-            <pre><input type="checkbox" name="h_lost_blood" data-bind="checked: h_lost_blood"/>หัวใจขาดเลือด</pre>
-            <pre><input type="checkbox" name="h_big" data-bind="checked: h_big"/>กล้ามเนื้อหัวใจโต</pre>
-            <pre><input type="checkbox" name="cabg" data-bind="checked: cabg"/>CABG</pre>
-            <pre><input type="checkbox" name="brain_blood" data-bind="checked: brain_blood"/>โรคหลอดเลือดสมอง</pre>
-            <pre><input type="checkbox" name="other" data-bind="checked: other"/>อื่น ๆ ระบุ</pre>
-            </td>            
-            </tr>
-            </table>           
-            </div>
-        </script>
         <div id="container">
             <div id="content">
                 <table id="table1" border="0" align="center">
@@ -193,27 +74,40 @@ if ($verb == "POST") {
         </div>
 
         <!-- <div id="listView"></div-->
-    <center><div id="baseInfoContainer"></div></center>
+    <center><div id="baseInfoContainer" style="display: none;"></div></center>
+    <center>
+        <div id="footContainer">
+            <div id="footDate" style="width: 50%;"></div>
+            <div id="footInfo"></div>
+        </div>
+    </center>
 
     <script>
 
+        templateLoader.loadExtTemplate("infoTemplate/_baseInfo.tmpl.htm");
 
+
+        $("#baseInfo").kendoButton({
+            click: function(e) {
+                $("#baseInfoContainer").slideToggle(1000);
+            }
+        });
 
         var dataSourceDb = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "getInfo_db.php",
+                    url: "get_db/getInfo_db.php",
                     data: {
                         id: <?php echo json_encode($id); ?>
                     }
                 },
                 update: {
-                    url: "getInfo_db.php",
+                    url: "get_db/getInfo_db.php",
                     type: "POST"
                 }
             },
             error: function(e) {
-                alert(e.responseText);
+                alert(e);
             },
             schema: {
                 data: "data",
@@ -225,101 +119,209 @@ if ($verb == "POST") {
                         age: "age",
                         name_d: "name_d",
                         relation: "relation",
-                        h_blood: { type: "boolean" },
-                        tai_y: { type: "boolean" },
-                        h_fail: { type: "boolean" },
-                        hi_fat: { type: "boolean" },
-                        h_lost_blood: { type: "boolean" },
-                        h_big: { type: "boolean" },
-                        other: { type: "boolean" } 
+                        h_blood: {type: "boolean"},
+                        tai_y: {type: "boolean"},
+                        h_fail: {type: "boolean"},
+                        hi_fat: {type: "boolean"},
+                        h_lost_blood: {type: "boolean"},
+                        h_big: {type: "boolean"},
+                        cabg: {type: "boolean"},
+                        brain_blood: {type: "boolean"},
+                        whenCancelSmoke: {type: "date"}
+
+                    }
+                }
+
+            }
+
+        });
+
+
+
+        $(document).on("TEMPLATE_LOADED", function() {
+            $("#baseInfoContainer").kendoListView({
+                template: kendo.template($("#baseInfoTemplate").html()),
+                editTemplate: kendo.template($("#editBaseInfoTemplate").html()),
+                dataSource: dataSourceDb,
+                edit: function(e) {
+                    $("#datePicker").kendoDatePicker({
+                        format: "dd MMM yyyy",
+                        parseFormats: ["yyyy/MM/dd"],
+                        culture: "th-TH",
+                        animation: {
+                            close: {
+                                effects: "fadeOut zoom:out",
+                                duration: 300
+                            },
+                            open: {
+                                effects: "fadeIn zoom:in",
+                                duration: 300
+                            }
+                        }
+
+                    });
+                    // var datepicker = $("#datePicker").data("kendoDatePicker");
+                    //datepicker.enable(false);
+
+                    $('input:radio[name="smoke"]').change(
+                            function() {
+                                if ($(this).val() === 'cancelSmoke') {
+                                    // datepicker.enable(true);
+                                }
+                                else {
+                                    // datepicker.enable(false);
+                                    //$("#datePicker").val('');
+                                }
+                            });
+                }
+
+            });
+        });
+
+    </script>
+    <script>
+        templateLoader.loadExtTemplate("infoTemplate/_foot.tmpl.html");
+        var keepId = <?php echo json_encode($id); ?>;
+        var dataSourceFootDate = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getFoot_db.php",
+                    dataType: "json",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                },
+                update: {
+                    url: "get_db/getFoot_db.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: {updateFootDate: true}
+                },
+                create: {
+                    url: "get_db/getFoot_db.php",
+                    dataType: "json",
+                    contentType: "application/json",
+                    type: "PUT",
+                    data: {
+                        id2: <?php echo json_encode($id); ?>                        
+                    }
+
+                }
+
+            },
+            error: function(e) {
+                alert(e.status);
+
+            },
+            schema: {
+                data: "dataFootDate",
+                model: {
+                    id: "id",
+                    fields: {
+                        dateFoot: {type: "date"},
+                        id: {type: "number"}
                     }
                 }
             }
+
         });
 
-        $("#baseInfoContainer").kendoListView({
-            template: kendo.template($("#template").html()),
-            editTemplate: kendo.template($("#editTemplate").html()),
-            dataSource: dataSourceDb,
-            
-            edit: function(e) {
-                $("#datePicker").kendoDatePicker({
-                    culture: "th-TH",
-                    animation: {
-                        close: {
-                            effects: "fadeOut zoom:out",
-                            duration: 300
-                        },
-                        open: {
-                            effects: "fadeIn zoom:in",
-                            duration: 300
-                        }
+        var dataSourceFoot = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getFoot_db.php",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
                     }
+                },
+                update: {
+                    url: "get_db/getFoot_db.php",
+                    type: "POST"
+                }
+            },
+            error: function(e) {
+                alert(e);
+            },
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        foot1: {type: "boolean"},
+                        foot2: {type: "boolean"},
+                        foot3: {type: "boolean"},
+                        foot4: {type: "boolean"},
+                        foot5: {type: "boolean"},
+                        foot6: {type: "boolean"},
+                        foot7: {type: "boolean"},
+                        foot8: {type: "boolean"},
+                        foot9: {type: "boolean"},
+                        foot10: {type: "boolean"},
+                        foot11: {type: "boolean"},
+                        foot12: {type: "boolean"}
 
-                });
-                var datepicker = $("#datePicker").data("kendoDatePicker");
-                datepicker.enable(false);
-                $('input:radio[name="smoke"]').change(
-                        function() {
-                            if ($(this).val() === 'cancelSmoke') {
-                                 datepicker.enable(true);
-                            }
-                            else {
-                                 datepicker.enable(false);
-                                 $("#datePicker").val('');
-                            }
-                        });
+
+                    }
+                }
 
             }
 
         });
-//dataSourceDb.read();
 
 
-        $("#baseInfo").kendoButton({
-            click: function(e) {
-                alert(e.event.target.tagName);
-            }
+
+        $(document).on("TEMPLATE_LOADED", function() {
+
+            /** var data = new Array();
+             dataSourceFoot.fetch(function() {
+             data = dataSourceFoot.data();
+             
+             });
+             
+             var template = kendo.template($("#footTemplate").html());
+             var result = template(data); //Execute the template
+             //Append the result**/
+
+            /**  $("#footDate").kendoListView({
+             template: kendo.template($("#footDateTemplate").html()),
+             editTemplate: kendo.template($("#editFootDateTemplate").html()),
+             dataSource: dataSourceFootDate,
+             edit: function(e) {
+             
+             }
+             
+             });**/
+
+            $("#footInfo").kendoListView({
+                template: kendo.template($("#footTemplate").html()),
+                editTemplate: kendo.template($("#editFootTemplate").html()),
+                dataSource: dataSourceFoot,
+                edit: function(e) {
+
+                }
+
+            });
+
+
         });
 
+        $(function() {
+            $("#footDate").kendoGrid({
+                dataSource: dataSourceFootDate,
+                selectable: true,
+                columns: [{field: "dateFoot", title: "วันที่ตรวจ", format: "{0:dd/MM/yyyy}", width: 20},
+                    {field: "resultFoot", title: "ผลการตรวจ", width: 20},
+                    {command: ["edit", "destroy"], title: "&nbsp;", width: 20}],
+                ///detailTemplate: kendo.template($("#template").html()),
+                // detailInit: detailInit,
+                editable: "inline",
+                navigable: true, // enables keyboard navigation in the grid
+                toolbar: [{name: "create", text: "เพิ่มผลการตรวจ"}]
 
-
-
-
-        /** 
-         $("#listView").kendoListView({
-         template: kendo.template($("#template").html()),
-         editTemplate: kendo.template($("#editTemplate").html()),
-         dataSource: {
-         transport: {
-         read: "testdb.php",
-         update: {
-         url: "testdb.php",
-         type: "POST"
-         }
-         },
-         error: function(e) {
-         alert(e.responseText);
-         },
-         schema: {
-         data: "data",
-         model: {
-         id: "ID",
-         fields: {
-         name: {editable: false},
-         sname: {validation: {required: true}},
-         age: {}
-         }
-         }
-         }
-         }
-         });
-         **/
-
-
+            });
+        });
 
     </script>
-
 
 </body>
 </html>

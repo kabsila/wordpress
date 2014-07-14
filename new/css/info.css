@@ -16,7 +16,24 @@
 #baseInfoContainer
 {
     padding-bottom: 50px;
+    
 }
+
+table.allTable 
+{
+    width: 60%;
+}
+tr.allTable  
+{
+    alignment-adjust: central;
+    height: 20px;    
+}
+td.allTable  
+{
+    width: 300px; 
+}
+
+
 
 .actionButton
 {
@@ -50,3 +67,4 @@ a.k-button.k-cancel-button
     width: 90px;
     height: 50px;
 }
+
