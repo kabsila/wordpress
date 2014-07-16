@@ -1,6 +1,6 @@
 <?php
 include_once ( 'connectDB.php' );
-
+require_once 'lib/Kendo/Autoload.php';
 mysql_select_db("diabetes") or die("Unable To Connect To Northwind");
 mysql_query("SET NAMES UTF8");
 //$arr = array();
@@ -30,6 +30,7 @@ if ($verb == "POST") {
         <link href="styles/kendo.common.min.css" rel="stylesheet" />
         <!-- Default Kendo UI Web theme CSS -->
         <link href="styles/kendo.default.min.css" rel="stylesheet" />
+
         <!-- jQuery JavaScript -->
         <script src="js/jquery.min.js"></script>
         <!-- Kendo UI Web combined JavaScript -->
@@ -37,9 +38,13 @@ if ($verb == "POST") {
         <script src="js/kendo.all.min.js"></script>
         <script src="js/cultures/kendo.culture.th-TH.min.js"></script>
         <script src="js/templateLoader.js"></script>
-        <script src="js/load-image.min.js"></script>
+        
         <link href="css/index.css" rel="stylesheet" />
         <link href="css/info.css" rel="stylesheet" />
+        <link href="css/uploadfile.min.css" rel="stylesheet" />
+        <script src="js/jquery.uploadfile.min.js"></script>
+        
+       
         <style>
             html { height: 100%; width: 100%;}
             body { height: 100%; width: 100%;}        
@@ -79,6 +84,10 @@ if ($verb == "POST") {
         <div id="footContainer">
             <div id="footDate" style="width: 50%;"></div>
             <div id="footInfo"></div>
+            <div class="k-header">
+                <div id="footImage">upload</div>                   
+            </div>
+            
         </div>
     </center>
 
@@ -86,8 +95,23 @@ if ($verb == "POST") {
 
         templateLoader.loadExtTemplate("infoTemplate/_baseInfo.tmpl.htm");
 
+     //   $(document).ready(function()
+    // {
+            $("#footImage").uploadFile({
+                url: "get_db/getFoot_db.php?type=save&footID=<?php echo $id; ?>",
+                multiple: true,
+                fileName: "myfile",
+                method: "POST"
+            });            
+            
+       // });
 
         $("#baseInfo").kendoButton({
+            click: function(e) {
+                $("#baseInfoContainer").slideToggle(1000);
+            }
+        });
+        $("#foot").kendoButton({
             click: function(e) {
                 $("#baseInfoContainer").slideToggle(1000);
             }
@@ -181,61 +205,68 @@ if ($verb == "POST") {
     </script>
     <script>
         templateLoader.loadExtTemplate("infoTemplate/_foot.tmpl.html");
-        
+
+
+
+
         var dataSourceFootDate = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "get_db/getFoot_db.php",
+                    url: "get_db/getFoot_db.php?type=read",
                     dataType: "json",
                     data: {
                         id: <?php echo json_encode($id); ?>
                     }
                 },
                 update: {
-                    url: "get_db/getFoot_db.php",
+                    url: "get_db/getFoot_db.php?type=update",
                     dataType: "json",
-                    type: "POST",
-                    data: {updateFootDate: true}
+                    type: "POST"
                 },
                 create: {
-                    url: "get_db/getFoot_db.php",
+                    url: "get_db/getFoot_db.php?type=create&footID=<?php echo $id; ?>",
                     dataType: "json",
-                    contentType: "application/json",
                     type: "PUT",
-                    data: {
-                        id2: <?php echo json_encode($id); ?>                        
+                    complete: function(e) {
+                        $("#footDate").data("kendoGrid").dataSource.read();
                     }
 
+                },
+                destroy: {
+                    url: "get_db/getFoot_db.php?type=destroy",
+                    dataType: "json",
+                    type: "POST"
                 }
 
             },
             error: function(e) {
                 alert(e.status);
-
             },
+            //autoSync: true,
             schema: {
                 data: "dataFootDate",
                 model: {
                     id: "id",
                     fields: {
+                        id: {type: "number"},
                         dateFoot: {type: "date"},
-                        id: {type: "number"}
+                        number: {type: "number"}
+
                     }
                 }
             }
 
         });
-
         var dataSourceFoot = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "get_db/getFoot_db.php",
+                    url: "get_db/getFoot_db.php?type=read",
                     data: {
                         id: <?php echo json_encode($id); ?>
                     }
                 },
                 update: {
-                    url: "get_db/getFoot_db.php",
+                    url: "get_db/getFoot_db.php?type=update",
                     type: "POST"
                 }
             },
@@ -271,36 +302,66 @@ if ($verb == "POST") {
             }
 
         });
+        var dataSourceFootImage = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getInfo_db.php?type=readFootImage",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                }
+            },
+            error: function(e) {
+                alert(e);
+            },
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        name: "name"
 
+                    }
+                }
 
+            }
 
-        $(document).on("TEMPLATE_LOADED", function() {           
+        });
+        $(document).on("TEMPLATE_LOADED", function() {
 
             $("#footInfo").kendoListView({
                 template: kendo.template($("#footTemplate").html()),
                 editTemplate: kendo.template($("#editFootTemplate").html()),
-                dataSource: dataSourceFoot,
+                dataSource: dataSourceFoot
+            });
+            $("#footImage").kendoListView({
+                template: kendo.template($("#footImageTemplate").html()),
+                editTemplate: kendo.template($("#editFootImageTemplate").html()),
+                dataSource: dataSourceFootImage,
                 edit: function(e) {
 
                 }
 
             });
-
-
         });
-
         $(function() {
             $("#footDate").kendoGrid({
                 dataSource: dataSourceFootDate,
                 selectable: true,
+                toolbar: [{name: "create", text: "เพิ่มผลการตรวจ"}],
                 columns: [{field: "dateFoot", title: "วันที่ตรวจ", format: "{0:dd/MM/yyyy}", width: 20},
                     {field: "resultFoot", title: "ผลการตรวจ", width: 20},
                     {command: ["edit", "destroy"], title: "&nbsp;", width: 20}],
                 ///detailTemplate: kendo.template($("#template").html()),
                 // detailInit: detailInit,
-                editable: "inline",
-                navigable: true, // enables keyboard navigation in the grid
-                toolbar: [{name: "create", text: "เพิ่มผลการตรวจ"}]
+                editable: "popup", //"inline",
+                navigable: true,
+                batch: true,
+                sortable: {
+                    mode: "single",
+                    allowUnsort: false
+                }// enables keyboard navigation in the grid
+
 
             });
         });
