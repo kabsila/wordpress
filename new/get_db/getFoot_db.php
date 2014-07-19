@@ -62,6 +62,43 @@ if ($type == "update") {
     }
 }
 
+if ($type == "updateFoot") {
+
+    $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
+    $foot1 = mysql_real_escape_string(filter_input(INPUT_POST, "foot1"));
+    $foot2 = mysql_real_escape_string(filter_input(INPUT_POST, "foot2"));
+    $foot3 = mysql_real_escape_string(filter_input(INPUT_POST, "foot3"));
+    $foot4 = mysql_real_escape_string(filter_input(INPUT_POST, "foot4"));
+    $foot5 = mysql_real_escape_string(filter_input(INPUT_POST, "foot5"));
+    $foot6 = mysql_real_escape_string(filter_input(INPUT_POST, "foot6"));
+    $foot7 = mysql_real_escape_string(filter_input(INPUT_POST, "foot7"));
+    $foot8 = mysql_real_escape_string(filter_input(INPUT_POST, "foot8"));
+    $foot9 = mysql_real_escape_string(filter_input(INPUT_POST, "foot9"));
+    $foot10 = mysql_real_escape_string(filter_input(INPUT_POST, "foot10"));
+    $foot11 = mysql_real_escape_string(filter_input(INPUT_POST, "foot11"));
+    $foot12 = mysql_real_escape_string(filter_input(INPUT_POST, "foot12"));  
+    
+    $rs = mysql_query("UPDATE foot SET "
+            . "foot1 = '$foot1', "
+            . "foot2 = '$foot2', "
+            . "foot3 = '$foot3', "
+            . "foot4 = '$foot4', "
+            . "foot5 = '$foot5', "
+            . "foot6 = '$foot6', "
+            . "foot7 = '$foot7', "
+            . "foot8 = '$foot8', "
+            . "foot9 = '$foot9', "
+            . "foot10 = '$foot10', "
+            . "foot11 = '$foot11', "
+            . "foot12 = '$foot12' "            
+            . "WHERE id = $employeeId ") or die("Error in query: $rs. " . mysql_error());
+    if ($rs) {
+        echo json_encode($rs);
+    } else {
+        header("HTTP/1.1 500 Internal Server Error");
+    }
+}
+
 if ($type == "create") {
 
     //$id2 = mysql_real_escape_string(filter_input(INPUT_POST, "id2"));
@@ -142,4 +179,41 @@ if ($type == "save") {
         echo json_encode($ret);
     }
 }
+
+if ($type == "readFootImage") {
+    $id = filter_input(INPUT_GET, "id");
+    $arr = array();
+
+    
+    $rs = mysql_query("SELECT * FROM footimage WHERE id = $id") or die("Error in query: $rs. " . mysql_error());
+    while ($obj = mysql_fetch_object($rs)) {
+
+        $arr[] = $obj;
+    }
+    ///echo "{\"dataFootDate\":" . json_encode($arr2) . "}";
+
+    //echo "{\"data\":" . json_encode($arr) . "}";
+   echo json_encode($arr);
+}
+
+if ($type == "destroyFootImage") {
+   // $id = filter_input(INPUT_GET, "id");
+    $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
+    $imageID = mysql_real_escape_string(filter_input(INPUT_POST, "imageID"));
+    $image = mysql_real_escape_string(filter_input(INPUT_POST, "image"));
+    $arr = array();
+    
+    $rs = mysql_query("DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID");// or die("Error in query: $rs. " . mysql_error());
+    $flgDelete = unlink("footImage/$image");
+    ///echo "{\"dataFootDate\":" . json_encode($arr2) . "}";
+    if ($rs && $flgDelete) {    
+       // echo "DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID";
+        echo json_encode($rs);
+    } else {
+        header("HTTP/1.1 500 Internal Server Error");
+       // echo "DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID";
+    }
+        
+}
+
 ?>

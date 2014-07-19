@@ -38,13 +38,15 @@ if ($verb == "POST") {
         <script src="js/kendo.all.min.js"></script>
         <script src="js/cultures/kendo.culture.th-TH.min.js"></script>
         <script src="js/templateLoader.js"></script>
-        
+
         <link href="css/index.css" rel="stylesheet" />
         <link href="css/info.css" rel="stylesheet" />
         <link href="css/uploadfile.min.css" rel="stylesheet" />
         <script src="js/jquery.uploadfile.min.js"></script>
-        
-       
+        <script type="text/javascript" src="fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>        
+        <link rel="stylesheet" href="fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+        <script type="text/javascript" src="fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
         <style>
             html { height: 100%; width: 100%;}
             body { height: 100%; width: 100%;}        
@@ -54,8 +56,6 @@ if ($verb == "POST") {
 
     </head>
     <body>
-
-
 
         <div id="container">
             <div id="content">
@@ -83,28 +83,35 @@ if ($verb == "POST") {
     <center>
         <div id="footContainer">
             <div id="footDate" style="width: 50%;"></div>
-            <div id="footInfo"></div>
-            <div class="k-header">
-                <div id="footImage">upload</div>                   
+            <div id="footInfo" class="k-header"></div>
+            <div class="footImage-section">
+                <div id="footImage" class="k-pager-wrap"></div>
+                <div id="uploadFoot" class="k-pager-wrap">upload image</div> 
+                <div id="pager" ></div>            
+
             </div>
-            
+
         </div>
+
+
     </center>
 
     <script>
 
         templateLoader.loadExtTemplate("infoTemplate/_baseInfo.tmpl.htm");
 
-     //   $(document).ready(function()
-    // {
-            $("#footImage").uploadFile({
-                url: "get_db/getFoot_db.php?type=save&footID=<?php echo $id; ?>",
-                multiple: true,
-                fileName: "myfile",
-                method: "POST"
-            });            
-            
-       // });
+
+        $("#uploadFoot").uploadFile({
+            url: "get_db/getFoot_db.php?type=save&footID=<?php echo $id; ?>",
+            multiple: true,
+            fileName: "myfile",
+            method: "POST",
+            onSuccess: function(files, data, xhr)
+            {
+                dataSourceFootImage.read();
+
+            }
+        });
 
         $("#baseInfo").kendoButton({
             click: function(e) {
@@ -160,8 +167,6 @@ if ($verb == "POST") {
 
         });
 
-
-
         $(document).on("TEMPLATE_LOADED", function() {
             $("#baseInfoContainer").kendoListView({
                 template: kendo.template($("#baseInfoTemplate").html()),
@@ -204,10 +209,7 @@ if ($verb == "POST") {
 
     </script>
     <script>
-        templateLoader.loadExtTemplate("infoTemplate/_foot.tmpl.html");
-
-
-
+        
 
         var dataSourceFootDate = new kendo.data.DataSource({
             transport: {
@@ -266,7 +268,7 @@ if ($verb == "POST") {
                     }
                 },
                 update: {
-                    url: "get_db/getFoot_db.php?type=update",
+                    url: "get_db/getFoot_db.php?type=updateFoot",
                     type: "POST"
                 }
             },
@@ -305,44 +307,94 @@ if ($verb == "POST") {
         var dataSourceFootImage = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "get_db/getInfo_db.php?type=readFootImage",
+                    url: "get_db/getFoot_db.php?type=readFootImage",
                     data: {
                         id: <?php echo json_encode($id); ?>
                     }
-                }
-            },
-            error: function(e) {
-                alert(e);
-            },
+                },
+                destroy: {
+                    url: "get_db/getFoot_db.php?type=destroyFootImage",
+                    dataType: "json",
+                    type: "POST"
+                }                  
+            },            
             schema: {
-                data: "data",
+                //data: "data",
                 model: {
                     id: "id",
                     fields: {
-                        name: "name"
-
+                        imageID: {type: "number"}
                     }
                 }
-
+            },
+            pageSize: 2,
+            error: function(e) {
+                alert(e);
             }
 
         });
+
+        templateLoader.loadExtTemplate("infoTemplate/_foot.tmpl.html");
+        
         $(document).on("TEMPLATE_LOADED", function() {
+
+            $("#pager").kendoPager({
+                dataSource: dataSourceFootImage,
+                previousNext: false,
+                pageSize: true
+                
+                        //buttonCount: 0
+            });
+
 
             $("#footInfo").kendoListView({
                 template: kendo.template($("#footTemplate").html()),
                 editTemplate: kendo.template($("#editFootTemplate").html()),
-                dataSource: dataSourceFoot
+                dataSource: dataSourceFoot,
+                edit: function(e) {
+                    var dataItem = dataSourceFoot.at(0);
+                    if (dataItem.FBS > 200) {
+                        $('#FBS').prop('checked', true);
+                    }
+                    if (dataItem.HbA1C > 7) {
+                        $('#HbA1C').prop('checked', true);
+                    }
+                    if (dataItem.age > 60) {
+                        $('#age').prop('checked', true);
+                    }
+                    if (dataItem.status === 'nay') {
+                        $('#status').prop('checked', true);
+                    }
+                    if (dataItem.smoke !== "cancelSmoke") {
+                        $('#smoke').prop('checked', true);
+                    }
+                }
             });
             $("#footImage").kendoListView({
+                dataSource: dataSourceFootImage,
+                pageable: true,
+                //navigatable: true,
+                //editable: true,
                 template: kendo.template($("#footImageTemplate").html()),
                 editTemplate: kendo.template($("#editFootImageTemplate").html()),
-                dataSource: dataSourceFootImage,
+                
                 edit: function(e) {
 
                 }
 
             });
+
+            $(".fancybox").fancybox({
+                openEffect: 'elastic',
+                closeEffect: 'elastic',
+                //fitToView: true,
+                helpers: {
+                    overlay: {
+                        locked: false
+                    }
+                }
+            });
+
         });
         $(function() {
             $("#footDate").kendoGrid({
@@ -361,9 +413,8 @@ if ($verb == "POST") {
                     mode: "single",
                     allowUnsort: false
                 }// enables keyboard navigation in the grid
-
-
             });
+
         });
 
     </script>

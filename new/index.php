@@ -182,9 +182,6 @@
                     e.preventDefault();
                 });
             });
-
-
-
         </script>
 
     </body>

@@ -16,7 +16,7 @@
 #baseInfoContainer
 {
     padding-bottom: 50px;
-    
+
 }
 
 table.allTable 
@@ -26,7 +26,7 @@ table.allTable
 tr.allTable  
 {
     alignment-adjust: central;
-        
+
 }
 td.allTable  
 {
@@ -68,3 +68,70 @@ a.k-button.k-cancel-button
     height: 50px;
 }
 
+.footImage-section {
+    width: 60%;
+    text-align: center;
+    
+    
+}
+#footImage
+{    
+    width: 100%;
+}
+.product-view
+{
+    display: inline-block;
+   
+    //position: relative;
+   // display: inline; 
+   // width: 50%;
+   // height: 50%;
+    //padding-left: 50%;
+   // padding-right: 50%;
+    //margin: 0 -1px -1px 0;
+}       
+
+.k-listview
+{
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+    //min-height: 298px;
+}
+
+
+.k-pager-wrap
+{
+    border-top: 0;
+}
+span.k-invalid-msg
+{
+    position: absolute;
+    margin-left: 6px;
+}
+
+edit-buttons
+        {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 26px;
+            height: 170px;
+            padding: 2px 2px 0 3px;
+            background-color: rgba(0,0,0,0.1);
+        }
+.ajax-upload-dragdrop 
+{
+    display: inline-block;
+    //margin-left: 120px;
+}
+div.ajax-file-upload
+{
+    text-align: center;
+    width: 150px;
+}
+.ajax-file-upload-statusbar
+{
+    display: inline-block;
+}
+       
