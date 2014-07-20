@@ -43,7 +43,6 @@ if ($type == "read") {
     echo "{\"data\":" . json_encode($arr) . ",\"dataFootDate\":" . json_encode($arr2) . "}";
 }
 
-// handle a POST  
 if ($type == "update") {
 
     $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
@@ -76,8 +75,31 @@ if ($type == "updateFoot") {
     $foot9 = mysql_real_escape_string(filter_input(INPUT_POST, "foot9"));
     $foot10 = mysql_real_escape_string(filter_input(INPUT_POST, "foot10"));
     $foot11 = mysql_real_escape_string(filter_input(INPUT_POST, "foot11"));
-    $foot12 = mysql_real_escape_string(filter_input(INPUT_POST, "foot12"));  
+    $foot12 = mysql_real_escape_string(filter_input(INPUT_POST, "foot12"));
+    //$risk = mysql_real_escape_string(filter_input(INPUT_POST, "risk"));
+    $boolFoot1 = filter_var($foot1, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot2 = filter_var($foot2, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot3 = filter_var($foot3, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot4 = filter_var($foot4, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot5 = filter_var($foot5, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot6 = filter_var($foot6, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot7 = filter_var($foot7, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot8 = filter_var($foot8, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot9 = filter_var($foot9, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot10 = filter_var($foot10, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot11 = filter_var($foot11, FILTER_VALIDATE_BOOLEAN);
+    $boolFoot12 = filter_var($foot12, FILTER_VALIDATE_BOOLEAN);
     
+    if (!$boolFoot1 && !$boolFoot5 && !$boolFoot6 && !$boolFoot7 && !$boolFoot8 && !$boolFoot9) {
+        $risk = 'low';
+    } else if (!$boolFoot1 || !$boolFoot5 || ($boolFoot6 && $boolFoot7) || $boolFoot9 || $boolFoot8) {
+        $risk = 'mid';
+    } else if ($boolFoot1 || $boolFoot5 || ($boolFoot6 && $boolFoot7 && $boolFoot8) || $boolFoot9) {
+        $risk = 'hight';
+    }     
+    // echo intval(!$foot1 && !$foot5 && !$foot6 && !$foot7 && !$foot8 && !$foot9);
+    // echo intval(!$foot1 || !$foot5 || ($foot6 && $foot7) || $foot9 || $foot8);
+    // echo intval($foot1 || $foot5 || ($foot6 && $foot7 && $foot8) || $foot9);
     $rs = mysql_query("UPDATE foot SET "
             . "foot1 = '$foot1', "
             . "foot2 = '$foot2', "
@@ -90,9 +112,11 @@ if ($type == "updateFoot") {
             . "foot9 = '$foot9', "
             . "foot10 = '$foot10', "
             . "foot11 = '$foot11', "
-            . "foot12 = '$foot12' "            
+            . "foot12 = '$foot12', "
+            . "risk = '$risk' "
             . "WHERE id = $employeeId ") or die("Error in query: $rs. " . mysql_error());
-    if ($rs) {
+    
+    if ($rs) {    
         echo json_encode($rs);
     } else {
         header("HTTP/1.1 500 Internal Server Error");
@@ -184,36 +208,117 @@ if ($type == "readFootImage") {
     $id = filter_input(INPUT_GET, "id");
     $arr = array();
 
-    
+
     $rs = mysql_query("SELECT * FROM footimage WHERE id = $id") or die("Error in query: $rs. " . mysql_error());
     while ($obj = mysql_fetch_object($rs)) {
 
         $arr[] = $obj;
     }
     ///echo "{\"dataFootDate\":" . json_encode($arr2) . "}";
-
     //echo "{\"data\":" . json_encode($arr) . "}";
-   echo json_encode($arr);
+    echo json_encode($arr);
 }
 
 if ($type == "destroyFootImage") {
-   // $id = filter_input(INPUT_GET, "id");
+    // $id = filter_input(INPUT_GET, "id");
     $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
     $imageID = mysql_real_escape_string(filter_input(INPUT_POST, "imageID"));
     $image = mysql_real_escape_string(filter_input(INPUT_POST, "image"));
     $arr = array();
-    
-    $rs = mysql_query("DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID");// or die("Error in query: $rs. " . mysql_error());
+
+    $rs = mysql_query("DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID"); // or die("Error in query: $rs. " . mysql_error());
     $flgDelete = unlink("footImage/$image");
     ///echo "{\"dataFootDate\":" . json_encode($arr2) . "}";
-    if ($rs && $flgDelete) {    
-       // echo "DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID";
+    if ($rs && $flgDelete) {
+        // echo "DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID";
         echo json_encode($rs);
     } else {
         header("HTTP/1.1 500 Internal Server Error");
-       // echo "DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID";
+        // echo "DELETE FROM footimage WHERE id = $employeeId AND imageID = $imageID";
     }
-        
 }
 
+if ($type == "readFootGrade") {
+
+    $id = filter_input(INPUT_GET, "id");
+    //$employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
+    //$footGrade = mysql_real_escape_string(filter_input(INPUT_POST, "footGrade"));   
+    $arr = array();
+    $rs = mysql_query("SELECT id, footGrade FROM foot WHERE id = $id") or die("Error in query: $rs. " . mysql_error());
+
+    while ($obj = mysql_fetch_object($rs)) {
+        $arr[] = $obj;
+    }
+
+    echo "{\"data\":" . json_encode($arr) . "}";
+}
+
+if ($type == "updateFootGrade") {
+    $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
+    $footGrade = mysql_real_escape_string(filter_input(INPUT_POST, "footGrade"));
+
+
+    $rs = mysql_query("UPDATE foot SET "
+            . "footGrade = $footGrade "
+            . "WHERE id = $employeeId") or die("Error in query: $rs. " . mysql_error());
+
+    if ($rs) {
+        echo json_encode($rs);
+    } else {
+        header("HTTP/1.1 500 Internal Server Error");
+    }
+}
+
+if ($type == "readFootSlit") {
+
+    $id = filter_input(INPUT_GET, "id");
+    //$employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
+    //$footGrade = mysql_real_escape_string(filter_input(INPUT_POST, "footGrade"));   
+    $arr = array();
+    $rs = mysql_query("SELECT id, prasat, lostBlood, virus, other FROM foot WHERE id = $id") or die("Error in query: $rs. " . mysql_error());
+
+    while ($obj = mysql_fetch_object($rs)) {
+        $arr[] = $obj;
+    }
+
+    echo "{\"data\":" . json_encode($arr) . "}";
+}
+
+if ($type == "updateFootSlit") {
+    $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
+    $prasat = mysql_real_escape_string(filter_input(INPUT_POST, "prasat"));
+    $lostBlood = mysql_real_escape_string(filter_input(INPUT_POST, "lostBlood"));
+    $virus = mysql_real_escape_string(filter_input(INPUT_POST, "virus"));
+    $other = mysql_real_escape_string(filter_input(INPUT_POST, "other"));
+
+
+    $rs = mysql_query("UPDATE foot SET "
+            . "prasat = '$prasat' ,"
+            . "lostBlood = '$lostBlood',"
+            . "virus = '$virus',"
+            . "other = '$other'"
+            . "WHERE id = $employeeId") or die("Error in query: $rs. " . mysql_error());
+
+    if ($rs) {
+        echo json_encode($rs);
+    } else {
+        header("HTTP/1.1 500 Internal Server Error");
+    }
+}
+
+if ($type == "readFootConclude") {
+
+    $id = filter_input(INPUT_GET, "id");
+    //$employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));
+    //$footGrade = mysql_real_escape_string(filter_input(INPUT_POST, "footGrade"));   
+    $arr = array();
+    $rs = mysql_query("SELECT id, risk, footGrade, prasat, lostBlood, virus "
+            . "FROM foot WHERE id = $id") or die("Error in query: $rs. " . mysql_error());
+
+    while ($obj = mysql_fetch_object($rs)) {
+        $arr[] = $obj;
+    }
+
+    echo "{\"data\":" . json_encode($arr) . "}";
+}
 ?>

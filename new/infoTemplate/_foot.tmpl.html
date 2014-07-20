@@ -138,7 +138,7 @@
 </script>
 
 <script type="text/x-kendo-tmpl" id="footImageTemplate">  
-    
+
     <div class="product-view"> 
     <div class="edit-buttons">    
     <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
@@ -154,8 +154,126 @@
             <div class="edit-buttons">
                 <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
                 <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
-            </div>
-    
+            </div>  
   
 </div>    
+</script>
+
+<script type="text/x-kendo-tmpl" id="footGradeTemplate">
+    <div class="k-block">
+    <div class="actionButton">
+    <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>
+    
+    </div>
+            <div class="k-header k-shadow"><strong>ความรุนแรงของแผลที่เท้าในผู้ป่วยเบาหวาน (Wagner grade)*</strong></div>
+#if(footGrade === 0){#
+     <label>Grade 0 Pre-ulcerative lesions (healed ulcer, presence of bony deformity)</label>
+#}else if(footGrade === 1){#
+    <label>Grade 1 Superficial ulcer without subcutaneous tissue involvement</label>
+#}else if(footGrade === 2){#
+    <label>Grade 2 Penetration through the subcutaneous tissue (may expose bone, tendon, ligament of join capsule)</label>
+#}else if(footGrade === 3){#
+    <label>Grade 3 Osteitis, abscess or osteomyelitis</label>
+#}else if(footGrade === 4){#
+    <label>Grade 4 Gangrene of digit</label>
+#}else if(footGrade === 5){#
+    <label>Grade 5 Gangrene of the foot requiring disarticulation</label>
+#}#
+<div>
+</script>
+<script type="text/x-kendo-tmpl" id="editFootGradeTemplate">
+    <div class="k-block">
+    <div class="actionButton">
+    <a class="k-button k-update-button" href="\\#"><span class="k-icon k-update"></span>บันทึก</a>
+    <a class="k-button k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>ยกเลิก</a>
+    </div>
+<div class="k-header k-shadow"><strong>ความรุนแรงของแผลที่เท้าในผู้ป่วยเบาหวาน (Wagner grade)*</strong></div>
+<div class="chidLeft" id="footGradeRadio">
+<input type="radio" value="0" name="footGrade" /><span>Grade 0 Pre-ulcerative lesions (healed ulcer, presence of bony deformity)</span><br>
+<input type="radio" value="1" name="footGrade" /><span>Grade 1 Superficial ulcer without subcutaneous tissue involvement</span><br>
+<input type="radio" value="2" name="footGrade" /><span>Grade 2 Penetration through the subcutaneous tissue (may expose bone, tendon, ligament of join capsule)</span><br>
+<input type="radio" value="3" name="footGrade" /><span>Grade 3 Osteitis, abscess or osteomyelitis</span><br>
+<input type="radio" value="4" name="footGrade" /><span>Grade 4 Gangrene of digit</span><br>
+<input type="radio" value="5" name="footGrade" /><span>Grade 5 Gangrene of the foot requiring disarticulation</span><br>
+</div>
+</div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="footSlitTemplate">
+    <div class="k-block" >    
+    <div class="actionButton">
+    <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>    
+    </div>
+    <div class="k-header k-shadow"><strong>ชนิดของแผลที่เท้า</strong></div>
+    <div class="chidLeft">
+    #if(prasat){#
+        <pre>แผลปลายประสาทเสื่อม</pre>
+    #}#
+    #if(lostBlood){#
+        <pre>แผลขาดเลือด</pre>
+    #}#
+    #if(virus){#
+        <pre>แผลติดเชื้อ</pre>
+    #}#
+    #if(!prasat && !lostBlood && !virus){#
+        <pre>ไม่มี</pre>
+    #}#  
+    </div>
+    <br>
+    <div class="k-header k-shadow"><strong>ข้อมูลอื่น ๆ </strong></div>
+    <pre>#:other#</pre>
+    </div>
+</script>
+<script type="text/x-kendo-tmpl" id="editFootSlitTemplate">
+    <div class="k-block">
+    <div class="actionButton">
+    <a class="k-button k-update-button" href="\\#"><span class="k-icon k-update"></span>บันทึก</a>
+    <a class="k-button k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>ยกเลิก</a>
+    </div>
+    <div class="k-header k-shadow"><strong>ชนิดของแผลที่เท้า</strong></div>
+    <div class="chidLeft">
+    <pre><input type="checkbox" name="prasat" data-bind="checked: prasat"/>แผลปลายประสาทเสื่อม</pre>
+    <pre><input type="checkbox" name="lostBlood" data-bind="checked: lostBlood"/>แผลขาดเลือด</pre>
+    <pre><input type="checkbox" name="virus" data-bind="checked: virus"/>แผลติดเชื้อ</pre>
+    </div>
+     <br>
+    <div class="k-header k-shadow"><strong>ข้อมูลอื่น ๆ </strong></div>
+    <textarea data-bind="value: other" style="width: 98%; height: 50px;"></textarea>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="footConcludeImageTemplate">
+    <div>    
+    <div class="product-conclude">    
+    <a class="fancybox" href="get_db/footImage/#:image#">
+    <img src="get_db/footImage/#:image#" style="width: 150px; height: 150px;" alt="" />
+    </a>
+    </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-tmpl" id="footConcludeTemplate">
+    <div>    
+    <div><strong>ระดับความเสี่ยง:</strong> 
+    #if(risk === 'low'){#
+        ความเสี่ยงต่ำ
+    #}else if(risk === 'mid'){#
+        ความเสี่ยงปานกลาง 
+    #}else{#
+        ความเสี่ยงสูง
+    #}#
+    </div>
+    <div><strong>ความรุนแรงของแผลที่เท้า:</strong> Grade #:footGrade# </div>
+    <div><strong>ชนิดของแผล:</strong> 
+    #if(prasat){#
+        แผลปลายประสาทเสื่อม,
+    #}#
+    #if(lostBlood){#
+        แผลขาดเลือด, 
+    #}#
+    #if(virus){#
+        แผลติดเชื้อ
+    #}#
+    </div>
+    </div>
 </script>

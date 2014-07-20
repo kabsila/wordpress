@@ -82,13 +82,26 @@ if ($verb == "POST") {
     <center><div id="baseInfoContainer" style="display: none;"></div></center>
     <center>
         <div id="footContainer">
-            <div id="footDate" style="width: 50%;"></div>
-            <div id="footInfo" class="k-header"></div>
+            <div id="footDate" style="width: 50%; margin-bottom: 25px;"></div>
+            <div id="footInfo" class="k-block"></div>
             <div class="footImage-section">
-                <div id="footImage" class="k-pager-wrap"></div>
-                <div id="uploadFoot" class="k-pager-wrap">upload image</div> 
-                <div id="pager" ></div>            
-
+                <div id="footImageBox" class="k-block" style="padding: 10px 25px 25px 25px;">                    
+                    <div class="k-header k-shadow" style="margin-bottom: 25px;"><strong>ภาพถ่ายเท้าทั้ง 2 ข้างในวันที่ทำการประเมิน</strong></div>
+                    <div id="footImage"></div>
+                    <div id="uploadFoot" style="padding-top: 25px;">upload image</div> 
+                </div>
+                <div id="pager"></div>            
+                <div id="footResult" style="padding-top: 25px;">
+                    <div class="k-header k-shadow k-block"><strong>ระดับความเสี่ยงของการเกิดแผลที่เท้า</strong></div> 
+                    <div id="footRisk" class="k-block"></div>
+                </div>
+                <div id="footGrade" style="padding-top: 25px; padding-bottom: 25px;"></div> 
+                <div id="footSlit" style="padding-bottom: 25px;"></div> 
+            </div>
+            <div id="footConclude-section" class="k-block" style="padding-bottom: 25px;margin-bottom: 25px;">
+                <div class="k-header k-shadow"><strong>สรุปผลการตรวจเท้าในผู้ป่วยรายนี้</strong></div>
+                <div id="footImageConclude"></div>
+                <div id="footConclude"></div>
             </div>
 
         </div>
@@ -209,7 +222,7 @@ if ($verb == "POST") {
 
     </script>
     <script>
-        
+
 
         var dataSourceFootDate = new kendo.data.DataSource({
             transport: {
@@ -274,7 +287,7 @@ if ($verb == "POST") {
             },
             error: function(e) {
                 alert(e);
-            },
+            },            
             schema: {
                 data: "data",
                 model: {
@@ -316,8 +329,8 @@ if ($verb == "POST") {
                     url: "get_db/getFoot_db.php?type=destroyFootImage",
                     dataType: "json",
                     type: "POST"
-                }                  
-            },            
+                }
+            },
             schema: {
                 //data: "data",
                 model: {
@@ -333,16 +346,123 @@ if ($verb == "POST") {
             }
 
         });
+        var dataSourceFootGrade = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getFoot_db.php?type=readFootGrade",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                },
+                update: {
+                    url: "get_db/getFoot_db.php?type=updateFootGrade",
+                    dataType: "json",
+                    type: "POST"
+                }
+            },
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        footGrade: {type: "number"}
+                    }
+                }
+            },            
+            error: function(e) {
+                alert(e);
+            }
+
+        });
+        var dataSourceFootSlit = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getFoot_db.php?type=readFootSlit",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                },
+                update: {
+                    url: "get_db/getFoot_db.php?type=updateFootSlit",
+                    dataType: "json",
+                    type: "POST"
+                }
+            },
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        prasat: {type: "boolean"},
+                        lostBlood: {type: "boolean"},
+                        virus: {type: "boolean"}
+                    }
+                }
+            },            
+            error: function(e) {
+                alert(e);
+            }
+
+        });
+        var dataSourceFootConclude = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getFoot_db.php?type=readFootConclude",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                }                
+            },
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        prasat: {type: "boolean"},
+                        lostBlood: {type: "boolean"},
+                        virus: {type: "boolean"},
+                        footGrade: {type: "number"}
+                    }
+                }
+            },            
+            error: function(e) {
+                alert(e);
+            }
+
+        });
+        var dataSourceFootConcludeImage = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getFoot_db.php?type=readFootImage",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                }
+            },
+            schema: {
+               // data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        imageID: {type: "number"}
+                    }
+                }
+            },            
+            error: function(e) {
+                alert(e);
+            }
+
+        });
 
         templateLoader.loadExtTemplate("infoTemplate/_foot.tmpl.html");
-        
+
         $(document).on("TEMPLATE_LOADED", function() {
 
             $("#pager").kendoPager({
                 dataSource: dataSourceFootImage,
                 previousNext: false,
                 pageSize: true
-                
+
                         //buttonCount: 0
             });
 
@@ -368,6 +488,12 @@ if ($verb == "POST") {
                     if (dataItem.smoke !== "cancelSmoke") {
                         $('#smoke').prop('checked', true);
                     }
+                },
+                save: function(e) {
+                    footRiskFunction();
+                    $("#footConclude").data("kendoListView").dataSourceFoot.read();
+                    $("#footConclude").data("kendoListView").refresh();
+
                 }
             });
             $("#footImage").kendoListView({
@@ -377,7 +503,42 @@ if ($verb == "POST") {
                 //editable: true,
                 template: kendo.template($("#footImageTemplate").html()),
                 editTemplate: kendo.template($("#editFootImageTemplate").html()),
-                
+                edit: function(e) {
+
+                }
+
+            });
+            $("#footGrade").kendoListView({
+                dataSource: dataSourceFootGrade,               
+                editable: true,
+                template: kendo.template($("#footGradeTemplate").html()),
+                editTemplate: kendo.template($("#editFootGradeTemplate").html()),
+                edit: function(e) {
+
+                }
+
+            });
+            $("#footSlit").kendoListView({
+                dataSource: dataSourceFootSlit,               
+                editable: true,
+                template: kendo.template($("#footSlitTemplate").html()),
+                editTemplate: kendo.template($("#editFootSlitTemplate").html()),
+                edit: function(e) {
+
+                }
+
+            });
+            $("#footConclude").kendoListView({
+                dataSource: dataSourceFootConclude,             
+                template: kendo.template($("#footConcludeTemplate").html())               
+
+            });
+            $("#footImageConclude").kendoListView({
+                dataSource: dataSourceFootConcludeImage,
+               // pageable: true,
+                //navigatable: true,
+                //editable: true,
+                template: kendo.template($("#footConcludeImageTemplate").html()),                
                 edit: function(e) {
 
                 }
@@ -397,6 +558,8 @@ if ($verb == "POST") {
 
         });
         $(function() {
+            footRiskFunction();
+
             $("#footDate").kendoGrid({
                 dataSource: dataSourceFootDate,
                 selectable: true,
@@ -416,6 +579,19 @@ if ($verb == "POST") {
             });
 
         });
+
+        function footRiskFunction() {
+            dataSourceFoot.fetch(function() {
+                var dataItem = dataSourceFoot.at(0);
+                if (!dataItem.foot1 && !dataItem.foot5 && !dataItem.foot6 && !dataItem.foot7 && !dataItem.foot8 && !dataItem.foot9) {
+                    $("#footRisk").html("มีความเสี่ยงต่ำ");                   
+                }else if (!dataItem.foot1 || !dataItem.foot5 || (dataItem.foot6 && dataItem.foot7) || dataItem.foot9 || dataItem.foot8) {
+                    $("#footRisk").html("มีความเสี่ยงปานกลาง");
+                } else if (dataItem.foot1 || dataItem.foot5 || (dataItem.foot6 && dataItem.foot7 && dataItem.foot8) || dataItem.foot9) {
+                    $("#footRisk").html("มีความเสี่ยงสูง");
+                } 
+            });
+        }
 
     </script>
 
