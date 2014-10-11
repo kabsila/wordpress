@@ -1,0 +1,46 @@
+<script type="text/x-kendo-template" id="eyeTemplate">
+    <div class="k-block" style="padding-bottom: 25px; ">
+    <div class="actionButton">
+    <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>    
+    </div>
+    <div class="k-header k-shadow"><b>ผลการตรวจภาวะจอประสาทตาผิดปกติจากเบาหวาน (diabetic ratinopathy)</b></div> 
+    #if(result === 'pdr'){#
+        <div>Proliferative diabetic retinopathy, (PDR)</div>
+    #}else if(result === 'me'){#
+        <div>macula edema</div>
+    #}else{#
+        <div><ul>Non-proliferative diabetic retinopathy (NPDR)</ul><li>#:result#</li></div>
+    #}#
+    <br>
+    <div class="k-header k-shadow"><b>สอบถามอาการทางตาและสายตา (Visual acuity)</b></div>     
+    <div>#:va#</div><br>
+    <div class="k-header k-shadow"><b>นัดตรวจตาอีกครั้งวันที่ </b></div>
+    # var date = new Date(nextDate);#
+    # mnth = ("0" + (date.getMonth()+1)).slice(-2);#
+    # day  = ("0" + date.getDate()).slice(-2);#
+    # var datee = [day , mnth, date.getFullYear()].join("-");#
+    <div>#=datee#</div>
+   </div>
+</script>
+
+<script type="text/x-kendo-template" id="editEyeTemplate">    
+    <div class="k-block" style="padding-bottom: 50px;">
+    <div class="actionButton">
+    <a class="k-button k-update-button" href="\\#"><span class="k-icon k-update"></span>บันทึก</a>
+    <a class="k-button k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>ยกเลิก</a>
+    </div>
+    <div class="k-header k-shadow"><b>ผลการตรวจภาวะจอประสาทตาผิดปกติจากเบาหวาน (diabetic ratinopathy)</b></div>    
+    <div class="chidLeft2">
+    <div>Non-proliferative diabetic retinopathy (NPDR)</div>
+    <div><input type="radio" value="mild" name="result" />mild</div>
+    <div><input type="radio" value="moderate" name="result" />moderate</div>
+    <div><input type="radio" value="severe" name="result" />severe</div>
+    <div><input type="radio" value="pdr" name="result" />Proliferative diabetic retinopathy, (PDR)</div>
+    <div><input type="radio" value="me" name="result" />macula edema</div>
+    </div>
+    <div class="k-header k-shadow"><b>สอบถามอาการทางตาและสายตา (Visual acuity)</b></div>     
+    <div><textarea data-bind="value: va" style="width: 90%; padding-bottom: 25px;"></textarea></div>
+    <div class="k-header k-shadow"><b>นัดตรวจตาอีกครั้งวันที่</b></div> 
+    <input id="eyeDatePicker" data-bind="value: nextDate" name="nextDate" style="width: 50%;"/>
+    </div>
+</script>

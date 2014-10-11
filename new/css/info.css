@@ -140,8 +140,28 @@ div.chidLeft input
     position: relative;
     float: left;
 }
-
+div.chidLeft div
+{
+    position: relative;
+    float: left;
+    clear: both;
+    margin-left: 100px;
+}
+div.chidLeftTai div
+{
+    position: relative;
+    float: left;
+    clear: both;
+    margin-left: 70px;
+}
 div.chidLeft span
+{
+    position: relative;
+    float: left;
+    //clear: both;
+}
+
+div.chidLeft label
 {
     position: relative;
     float: left;
@@ -178,4 +198,22 @@ div.actionButton
     width: 60%;
     text-align: center;
     
+}
+
+div.checkmark div:before {
+    
+    content:"\2714\0020";
+}
+
+.chidLeft2
+{
+    display: inline-block;
+    margin-left: 10%;
+    text-align: left;
+    padding-bottom: 25px;
+    
+}
+p span 
+{
+    display: block;
 }

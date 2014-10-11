@@ -81,7 +81,7 @@ if ($verb == "POST") {
         <!-- <div id="listView"></div-->
     <center><div id="baseInfoContainer" style="display: none;"></div></center>
     <center>
-        <div id="footContainer">
+        <div id="footContainer" style="display: none;">
             <div id="footDate" style="width: 50%; margin-bottom: 25px;"></div>
             <div id="footInfo" class="k-block"></div>
             <div class="footImage-section">
@@ -103,7 +103,18 @@ if ($verb == "POST") {
                 <div id="footImageConclude"></div>
                 <div id="footConclude"></div>
             </div>
-
+            <div class="k-block"></div>
+        </div>
+        <div id="taiContainer" style="display: none;">
+            <div id="taiDate" style="width: 50%; margin-bottom: 25px;"></div>
+            <div id="taiInfo" style="width: 60%; margin-bottom: 25px;"></div>
+        </div>
+        <div id="eyeContainer" style="display: none;">
+            <div id="eyeDate" style="width: 50%; margin-bottom: 25px;"></div>
+            <div id="eyeInfo" style="width: 60%; margin-bottom: 25px;"></div>
+        </div>
+        <div id="bloodContainer" style="display: none;">            
+            <div id="bloodInfo" style="width: 60%; margin-bottom: 25px;"></div>
         </div>
 
 
@@ -112,7 +123,6 @@ if ($verb == "POST") {
     <script>
 
         templateLoader.loadExtTemplate("infoTemplate/_baseInfo.tmpl.htm");
-
 
         $("#uploadFoot").uploadFile({
             url: "get_db/getFoot_db.php?type=save&footID=<?php echo $id; ?>",
@@ -133,10 +143,19 @@ if ($verb == "POST") {
         });
         $("#foot").kendoButton({
             click: function(e) {
-                $("#baseInfoContainer").slideToggle(1000);
+                $("#footContainer").slideToggle(1000);
             }
         });
-
+        $("#tai").kendoButton({
+            click: function(e) {
+                $("#taiContainer").slideToggle(1000);
+            }
+        });
+        $("#eye").kendoButton({
+            click: function(e) {
+                $("#eyeContainer").slideToggle(1000);
+            }
+        });
         var dataSourceDb = new kendo.data.DataSource({
             transport: {
                 read: {
@@ -223,7 +242,6 @@ if ($verb == "POST") {
     </script>
     <script>
 
-
         var dataSourceFootDate = new kendo.data.DataSource({
             transport: {
                 read: {
@@ -287,7 +305,11 @@ if ($verb == "POST") {
             },
             error: function(e) {
                 alert(e);
-            },            
+            },
+            change: function(e) {
+                $("#footConclude").data("kendoListView").dataSource.read();
+                $("#footConclude").data("kendoListView").refresh();
+            },
             schema: {
                 data: "data",
                 model: {
@@ -343,6 +365,10 @@ if ($verb == "POST") {
             pageSize: 2,
             error: function(e) {
                 alert(e);
+            },
+            change: function(e) {
+                //alert("sss");
+                $("#footImageConclude").data("kendoListView").dataSource.read();
             }
 
         });
@@ -368,9 +394,12 @@ if ($verb == "POST") {
                         footGrade: {type: "number"}
                     }
                 }
-            },            
+            },
             error: function(e) {
                 alert(e);
+            },
+            change: function(e) {
+                $("#footConclude").data("kendoListView").dataSource.read();
             }
 
         });
@@ -398,9 +427,12 @@ if ($verb == "POST") {
                         virus: {type: "boolean"}
                     }
                 }
-            },            
+            },
             error: function(e) {
                 alert(e);
+            },
+            change: function(e) {
+                $("#footConclude").data("kendoListView").dataSource.read();
             }
 
         });
@@ -411,7 +443,7 @@ if ($verb == "POST") {
                     data: {
                         id: <?php echo json_encode($id); ?>
                     }
-                }                
+                }
             },
             schema: {
                 data: "data",
@@ -424,7 +456,7 @@ if ($verb == "POST") {
                         footGrade: {type: "number"}
                     }
                 }
-            },            
+            },
             error: function(e) {
                 alert(e);
             }
@@ -440,14 +472,14 @@ if ($verb == "POST") {
                 }
             },
             schema: {
-               // data: "data",
+                // data: "data",
                 model: {
                     id: "id",
                     fields: {
                         imageID: {type: "number"}
                     }
                 }
-            },            
+            },
             error: function(e) {
                 alert(e);
             }
@@ -465,7 +497,6 @@ if ($verb == "POST") {
 
                         //buttonCount: 0
             });
-
 
             $("#footInfo").kendoListView({
                 template: kendo.template($("#footTemplate").html()),
@@ -491,8 +522,7 @@ if ($verb == "POST") {
                 },
                 save: function(e) {
                     footRiskFunction();
-                    $("#footConclude").data("kendoListView").dataSourceFoot.read();
-                    $("#footConclude").data("kendoListView").refresh();
+
 
                 }
             });
@@ -509,7 +539,7 @@ if ($verb == "POST") {
 
             });
             $("#footGrade").kendoListView({
-                dataSource: dataSourceFootGrade,               
+                dataSource: dataSourceFootGrade,
                 editable: true,
                 template: kendo.template($("#footGradeTemplate").html()),
                 editTemplate: kendo.template($("#editFootGradeTemplate").html()),
@@ -519,7 +549,7 @@ if ($verb == "POST") {
 
             });
             $("#footSlit").kendoListView({
-                dataSource: dataSourceFootSlit,               
+                dataSource: dataSourceFootSlit,
                 editable: true,
                 template: kendo.template($("#footSlitTemplate").html()),
                 editTemplate: kendo.template($("#editFootSlitTemplate").html()),
@@ -529,16 +559,16 @@ if ($verb == "POST") {
 
             });
             $("#footConclude").kendoListView({
-                dataSource: dataSourceFootConclude,             
-                template: kendo.template($("#footConcludeTemplate").html())               
+                dataSource: dataSourceFootConclude,
+                template: kendo.template($("#footConcludeTemplate").html())
 
             });
             $("#footImageConclude").kendoListView({
                 dataSource: dataSourceFootConcludeImage,
-               // pageable: true,
+                // pageable: true,
                 //navigatable: true,
                 //editable: true,
-                template: kendo.template($("#footConcludeImageTemplate").html()),                
+                template: kendo.template($("#footConcludeImageTemplate").html()),
                 edit: function(e) {
 
                 }
@@ -584,16 +614,354 @@ if ($verb == "POST") {
             dataSourceFoot.fetch(function() {
                 var dataItem = dataSourceFoot.at(0);
                 if (!dataItem.foot1 && !dataItem.foot5 && !dataItem.foot6 && !dataItem.foot7 && !dataItem.foot8 && !dataItem.foot9) {
-                    $("#footRisk").html("มีความเสี่ยงต่ำ");                   
-                }else if (!dataItem.foot1 || !dataItem.foot5 || (dataItem.foot6 && dataItem.foot7) || dataItem.foot9 || dataItem.foot8) {
+                    $("#footRisk").html("มีความเสี่ยงต่ำ");
+                } else if (!dataItem.foot1 || !dataItem.foot5 || (dataItem.foot6 && dataItem.foot7) || dataItem.foot9 || dataItem.foot8) {
                     $("#footRisk").html("มีความเสี่ยงปานกลาง");
                 } else if (dataItem.foot1 || dataItem.foot5 || (dataItem.foot6 && dataItem.foot7 && dataItem.foot8) || dataItem.foot9) {
                     $("#footRisk").html("มีความเสี่ยงสูง");
-                } 
+                }
             });
         }
 
     </script>
+    <script>
 
+        var dataSourceTaiDate = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getTai_db.php?type=read",
+                    dataType: "json",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                },
+                update: {
+                    url: "get_db/getTai_db.php?type=update",
+                    dataType: "json",
+                    type: "POST"
+                },
+                create: {
+                    url: "get_db/getTai_db.php?type=create&taiID=<?php echo $id; ?>",
+                    dataType: "json",
+                    type: "PUT",
+                    complete: function(e) {
+                        $("#taiDate").data("kendoGrid").dataSource.read();
+                    }
+
+                },
+                destroy: {
+                    url: "get_db/getTai_db.php?type=destroy",
+                    dataType: "json",
+                    type: "POST"
+                }
+
+            },
+            error: function(e) {
+                alert(e.status);
+            },
+            //autoSync: true,
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        id: {type: "number"},
+                        dateTai: {type: "date"},
+                        number: {type: "number"}
+
+                    }
+                }
+            }
+
+        });
+        var dataSourceTai = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getTai_db.php?type=readTai",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                },
+                update: {
+                    url: "get_db/getTai_db.php?type=updateTai",
+                    type: "POST"
+                }
+            },
+            error: function(e) {
+                alert(e);
+            },
+            change: function(e) {
+
+            },
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        urine: {type: "boolean"},
+                        creatine: {type: "number"},
+                        age: {type: "number"}
+                    }
+                }
+
+            }
+
+        });
+
+        templateLoader.loadExtTemplate("infoTemplate/_tai.tmpl.html");
+
+        $(document).on("TEMPLATE_LOADED", function() {
+
+            $("#taiInfo").kendoListView({
+                template: kendo.template($("#taiTemplate").html()),
+                editTemplate: kendo.template($("#editTaiTemplate").html()),
+                dataSource: dataSourceTai,
+                edit: function(e) {
+
+                },
+                save: function(e) {
+                    var gfr;
+                    var level;
+                    dataSourceTai.fetch(function() {
+                        var dataItem = dataSourceTai.at(0);
+                        if (dataItem.status === 'nang' && dataItem.creatine <= 0.7) {
+                            gfr = 144 * Math.pow((kendo.parseFloat(dataItem.creatine) / 0.7), -0.329) * Math.pow(0.993, dataItem.age);
+                        } else if (dataItem.status === 'nang' && dataItem.creatine > 0.7) {
+                            gfr = 144 * Math.pow((kendo.parseFloat(dataItem.creatine) / 0.7), -1.209) * Math.pow(0.993, dataItem.age);
+                        } else if (dataItem.status !== 'nang' && dataItem.creatine <= 0.9) {
+                            gfr = 141 * Math.pow((kendo.parseFloat(dataItem.creatine) / 0.7), -0.411) * Math.pow(0.993, dataItem.age);
+                        } else if (dataItem.status !== 'nang' && dataItem.creatine > 0.9) {
+                            gfr = 141 * Math.pow((kendo.parseFloat(dataItem.creatine) / 0.7), -1.209) * Math.pow(0.993, dataItem.age);
+                        }
+
+                        if (gfr > 90) {
+                            level = 1;
+                        } else if (gfr >= 60 && gfr <= 89) {
+                            level = 2;
+                        } else if (gfr >= 30 && gfr <= 59) {
+                            level = 3;
+                        } else if (gfr >= 15 && gfr <= 29) {
+                            level = 4;
+                        } else if (gfr < 15) {
+                            level = 5;
+                        }
+                        dataItem.set("gfr", gfr);
+                        dataItem.set("result", level);
+                        dataSourceTai.sync();
+
+                    });
+
+                    dataSourceTai.read();
+
+                }
+            });
+        });
+
+        $(function() {
+
+            $("#taiDate").kendoGrid({
+                dataSource: dataSourceTaiDate,
+                selectable: true,
+                toolbar: [{name: "create", text: "เพิ่มผลการตรวจ"}],
+                columns: [{field: "dateTai", title: "วันที่ตรวจ", format: "{0:dd/MM/yyyy}", width: 20},
+                    {field: "resultTai", title: "ผลการตรวจ", width: 20},
+                    {command: ["edit", "destroy"], title: "&nbsp;", width: 20}],
+                ///detailTemplate: kendo.template($("#template").html()),
+                // detailInit: detailInit,
+                editable: "popup", //"inline",
+                navigable: true,
+                batch: true,
+                sortable: {
+                    mode: "single",
+                    allowUnsort: false
+                }// enables keyboard navigation in the grid
+            });
+
+        });
+    </script>
+    <script>
+        var dataSourceEyeDate = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getEye_db.php?type=read",
+                    dataType: "json",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                },
+                update: {
+                    url: "get_db/getEye_db.php?type=update",
+                    dataType: "json",
+                    type: "POST"
+                },
+                create: {
+                    url: "get_db/getEye_db.php?type=create&eyeID=<?php echo $id; ?>",
+                    dataType: "json",
+                    type: "PUT",
+                    complete: function(e) {
+                        $("#eyeDate").data("kendoGrid").dataSource.read();
+                    }
+
+                },
+                destroy: {
+                    url: "get_db/getEye_db.php?type=destroy",
+                    dataType: "json",
+                    type: "POST"
+                }
+
+            },
+            error: function(e) {
+                alert(e.status);
+            },
+            //autoSync: true,
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        id: {type: "number"},
+                        dateEye: {type: "date"},
+                        number: {type: "number"}
+
+                    }
+                }
+            }
+
+        });
+        var dataSourceEye = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getEye_db.php?type=readEye",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                },
+                update: {
+                    url: "get_db/getEye_db.php?type=updateEye",
+                    type: "POST"
+                }
+            },
+            error: function(e) {
+                alert(e);
+            },
+            change: function(e) {
+
+            },
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                    }
+                }
+
+            }
+
+        });
+
+        templateLoader.loadExtTemplate("infoTemplate/_eye.tmpl.html");
+        $(document).on("TEMPLATE_LOADED", function() {
+
+            $("#eyeInfo").kendoListView({
+                template: kendo.template($("#eyeTemplate").html()),
+                editTemplate: kendo.template($("#editEyeTemplate").html()),
+                dataSource: dataSourceEye,
+                edit: function(e) {
+                    $("#eyeDatePicker").kendoDatePicker({
+                        format: "dd MMM yyyy",
+                        parseFormats: ["yyyy/MM/dd"],
+                        culture: "th-TH",
+                        animation: {
+                            close: {
+                                effects: "fadeOut zoom:out",
+                                duration: 300
+                            },
+                            open: {
+                                effects: "fadeIn zoom:in",
+                                duration: 300
+                            }
+                        }
+
+                    });
+                },
+                save: function(e) {
+
+                }
+            });
+        });
+
+        $(function() {
+
+            $("#eyeDate").kendoGrid({
+                dataSource: dataSourceEyeDate,
+                selectable: true,
+                toolbar: [{name: "create", text: "เพิ่มผลการตรวจ"}],
+                columns: [{field: "dateEye", title: "วันที่ตรวจ", format: "{0:dd/MM/yyyy}", width: 20},
+                    {field: "resultEye", title: "ผลการตรวจ", width: 20},
+                    {command: ["edit", "destroy"], title: "&nbsp;", width: 20}],
+                ///detailTemplate: kendo.template($("#template").html()),
+                // detailInit: detailInit,
+                editable: "popup", //"inline",
+                navigable: true,
+                batch: true,
+                sortable: {
+                    mode: "single",
+                    allowUnsort: false
+                }// enables keyboard navigation in the grid
+            });
+
+        });
+    </script>
+    <script>
+        var dataSourceBlood = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "get_db/getBlood_db.php?type=readBlood",
+                    data: {
+                        id: <?php echo json_encode($id); ?>
+                    }
+                },
+                update: {
+                    url: "get_db/getBlood_db.php?type=updateBlood",
+                    type: "POST"
+                }
+            },
+            error: function(e) {
+                alert(e);
+            },
+            change: function(e) {
+
+            },
+            schema: {
+                data: "data",
+                model: {
+                    id: "id",
+                    fields: {
+                        risk1: {type: "boolean"},
+                        risk2: {type: "boolean"},
+                        risk3: {type: "boolean"}
+                    }
+                }
+
+            }
+
+        });
+        
+        templateLoader.loadExtTemplate("infoTemplate/_blood.tmpl.html");
+        $(document).on("TEMPLATE_LOADED", function() {
+
+            $("#bloodInfo").kendoListView({
+                template: kendo.template($("#bloodTemplate").html()),
+                editTemplate: kendo.template($("#editBloodTemplate").html()),
+                dataSource: dataSourceBlood,
+                edit: function(e) {
+                    
+                },
+                save: function(e) {
+
+                }
+            });
+        });
+    </script>
 </body>
 </html>

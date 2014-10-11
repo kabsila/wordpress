@@ -1,0 +1,37 @@
+<script type="text/x-kendo-template" id="bloodTemplate">
+    <div class="k-block" style="padding-bottom: 25px; ">
+    <div class="actionButton">
+    <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>    
+    </div>
+    <div class="k-header k-shadow">การตรวจประเมินเพื่อหาความเสี่ยงต่อการเกิดภาวะแทรกซ้อนหลอดเลือดหัวใจและหลอดเลือดสมอง</div> 
+    <div>ปัจจัยเสี่ยงต่อการเกิดภาวะแทรกซ้อนหลอดเลือดหัวใจและหลอดเลือดสมอง</div>
+     <div class="checkmark chidLeft2">
+    #if(risk1){#
+        <div>มีความดันโลหิตสูงมากกว่า 130/80 mm/Hg</div>
+    #}#
+    #if(risk2){#
+        <div>มีภาวะไขมันในเลือดสูง</div>
+    #}#
+    #if(risk3){#
+        <div>มีประวัติเกี่ยวกับโรคหัวใจและหลอดเลือด: #:risk3Text#</div>
+    #}#
+    </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-template" id="editBloodTemplate">    
+    <div class="k-block" style="padding-bottom: 25px;">
+    <div class="actionButton">
+    <a class="k-button k-update-button" href="\\#"><span class="k-icon k-update"></span>บันทึก</a>
+    <a class="k-button k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>ยกเลิก</a>
+    </div>
+    <div class="k-header k-shadow"><b>ผลการตรวจภาวะจอประสาทตาผิดปกติจากเบาหวาน (diabetic ratinopathy)</b></div>    
+    <div class="chidLeft2">
+    <div><input type="checkbox" name="risk1" data-bind="checked: risk1"/>มีความดันโลหิตสูงมากกว่า 130/80 mm/Hg</div>
+    <div><input type="checkbox" name="risk2" data-bind="checked: risk2"/>มีภาวะไขมันในเลือดสูง</div>
+    <div><input type="checkbox" name="risk3" data-bind="checked: risk3"/>มีประวัติเกี่ยวกับโรคหัวใจและหลอดเลือด ระบุ 
+    <input type="text" data-bind="value: risk3Text"/></div>
+    </div>
+    
+    </div>
+</script>

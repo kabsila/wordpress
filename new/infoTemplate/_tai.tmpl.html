@@ -1,0 +1,97 @@
+<script type="text/x-kendo-template" id="taiTemplate">
+    <div class="k-block" style="padding-bottom: 200px; ">
+    <div class="actionButton">
+    <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span><span>แก้ไข</span></a>    
+    </div>
+    <div class="k-header k-shadow chidLeft"><b>การตรวจประเมินการทำงานของไต</b></div>
+    <b>1. การตรวจ Urine protine</b>
+    <div>
+    #if(urine){#
+        <div>พบ</div>
+    #}else{#
+        <div>ไม่พบ</div>
+    #}#            
+    </div>
+    #if(urine){#
+     <b>2. คัดกรองทำ microalbuminuria</b>
+     <div>
+     #if(micro === "micro1"){#
+        <div>Alb/Cr น้อยกว่า 30 mg/g หรือ microalbumin dipstick < 20 mg/l</div>
+     #}else if(micro === "micro2"){#
+        <div>Alb/Cr 30 - 299 หรือ microalbumin dipstick > 20 mg/l</div>
+     #}else if(micro === "micro3"){#
+        <div>Alb/Cr 30 - 299 หรือ microalbumin dipstick > 100 mg/l</div>
+     #}#
+     
+     </div>  
+    <div> <b>3. ระดับซีรัมครีเอตินิน</b> #:creatine# mg/dl <b>อัตตราการกรองของไตเท่ากับ</b> #:gfr# <b>แปลผล</b> ระยะ #:result# </div> 
+    #}#
+    <br><div class="k-header k-shadow"><strong>สรุปผลการประเมินความเสี่ยงต่อการเกิดภาวะแทรกซ้อนที่ไต</strong></div>
+    #if(micro === "micro1"){#
+        <div>ในรายนี้มีความเสี่ยง: <b>ต่ำ</b></div>       
+        
+    #}#
+    #if(micro === "micro2"){#
+        <div>ในรายนี้มีความเสี่ยง: <b>ปานกลาง</b></div>        
+    #}#
+    #if(micro === "micro3"){#
+        <div>ในรายนี้มีความเสี่ยง: <b>สูง</b></div>        
+    #}#
+   <br><div class="k-header k-shadow"><strong>การดูและเฉพาะและที่สำคัญในรายนี้</strong></div>
+   <div class="checkmark chidLeftTai">
+   #if(micro === "micro1"){#
+        <div>ควบคุมระดับน้ำตาลในเลือดให้เท่ากับหรือใกล้เคียงค่ปกติที่สามารถทำได้</div>   
+        <div>ควบคุมระดับความดันโลหิตให้น้อยกว่า 130/80 มิลลิเมตรปรอท</div>         
+    #}#
+    #if(micro === "micro2"){#
+        <div>ควบคุมระดับน้ำตาลในเลือดให้เท่ากับหรือใกล้เคียงค่าปกติเท่าที่สามารถทำได้ เพื่อลดและชะลอความเสื่อมสภาพของไต</div>
+        <div>ควบคุมระดับความดันโลหิตให้น้อยกว่า 130/80 มิลลิเมตรปรอท (เลิกบุหรี่, ปรับการกิน, ออกกำลังกาย)</div> 
+        <div>รายงานแพทย์เพื่อวางแผนการปรับลดยาที่มีผลต่อการทำงานไต</div> 
+        <div>จำกัดโปรตีนน้อยกว่า 0.8 กรัม เพื่อชะลอความเสื่อมของไต</div> 
+        <div>แนะนำหลีกเลี่ยงการใช้สารที่เป็นอันตรายต่อไต</div> 
+        <div>แจ้งหรือส่งผู้ป่วยเข้ารับการดูแลในคลินิกไต เพื่อรับการชะลอความเสื่อมของไต</div> 
+        <div>แจ้งผู้ป่วยทราบถึงภาวะแทรกซ้อนที่เกิดขึ้น เพื่อเพิ่มความร่วมมือในการดูแล</div> 
+        <div>วางแผนการรับประทานอาหารให้เป็นไปตามแผนการรักษา</div> 
+        <div>ร่วมวางแผนการออกกำลังกายที่เหมาะสมต่อสภาวะของผู้ป่วย</div>         
+    #}#
+    #if(micro === "micro3"){#
+        <div>ควบคุมระดับน้ำตาลในเลือดให้เท่ากับหรือใกล้เคียงค่าปกติเท่าที่สามารถทำได้</div>
+        <div>ควบคุมระดับความดันโลหิตให้น้อยกว่า 130/80 มิลลิเมตรปรอท (เลิกบุหรี่, ปรับการกิน, ออกกำลังกาย)</div>
+        <div>จำกัดโปรในอาหาร เพื่อชะลอความเสื่อมของไต</div>
+        <div>เลือกยาลดความดันโลหิตที่มีผลกระทบต่อระดับน้ำตาล หรือระดับไขมันให้น้อยที่สุด</div>
+        <div>ยาลดความดันโลหิตสูงบางกลุ่ม เช่น ACEI หรือ ARB มีส่วนช่วยชะลอความเสื่อมของไตได้ดีกว่ายากลุ่มอื่น</div>
+        <div>ควรตรวจหาและให้การดูแล diabetic retinopathy</div>
+        <div>ผู้ป่วยที่มีค่า GFR ต่ำกว่า 60 มิลลิลิตร/นาที/1.73 ตารางเมตรควรพบแพทย์ผู้เชี่ยวชาญเรื่องไต</div>
+        <div>ผู้ป่วยที่มี serum creatinine ตั้งแต่ 2 มก./ดล. ขึ้นไปควรพบแพทย์ผู้เชี่ยวชาญเรื่องไต</div>
+    #}#
+    </div>
+   </div>
+</script>
+
+<script type="text/x-kendo-template" id="editTaiTemplate">    
+    <div class="k-block" style="padding-bottom: 50px;">
+    <div class="actionButton">
+    <a class="k-button k-update-button" href="\\#"><span class="k-icon k-update"></span>บันทึก</a>
+    <a class="k-button k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>ยกเลิก</a>
+    </div>
+    <div class="k-header k-shadow chidLeft"><b>การตรวจประเมินการทำงานของไต</b></div>
+    <div><b>1. การตรวจ Urine protine</b></div>
+    <div class="chidLeft" style="margin-left: 33%;">
+    <div><input type="radio" value="false" name="urine" />ไม่พบ</div>
+    <div><input type="radio" value="true" name="urine" />พบ</div><br>
+    </div>
+    #if(urine){#
+     <br><div><b>2. คัดกรองทำ microalbuminuria</b></div>
+     <div class="chidLeft" style="margin-left: 15%;">
+     <div><input type="radio" value="micro1" name="micro" />Alb/Cr น้อยกว่า 30 mg/g หรือ microalbumin dipstick < 20 mg/l</div>
+     <div><input type="radio" value="micro2" name="micro" />Alb/Cr 30 - 299 หรือ microalbumin dipstick > 20 mg/l</div>
+     <div><input type="radio" value="micro3" name="micro" />Alb/Cr 30 - 299 หรือ microalbumin dipstick > 100 mg/l</div>
+     </div><br>
+     <br><br>
+     <div>
+     <b>3. ระดับซีรัมครีเอตินิน</b></div> 
+     <input type="text class="k-textbox" data-bind="value:creatine" name="creatine" /> 
+     </div> 
+     #}#
+    </div>
+</script>
