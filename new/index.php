@@ -58,6 +58,13 @@
             </div>
             </div>
         </script>
+
+        <script type="text/x-kendo-template" id="searchTemplate">
+            <div class="toolbar">
+            <label class="category-label" for="category">Show products by category:</label>
+            <input type="search" id="category" style="width: 150px"/>
+            </div>
+        </script>
         <div id="contener">
             <div id="content">
                 <div id="add">
@@ -76,13 +83,29 @@
                 editTemplate: kendo.template($("#editTemplate").html()),
                 dataSource: {
                     transport: {
-                        read: "testdb.php",
+                        read: {
+                            url: "testdb.php"
+                        },
                         update: {
-                            url: "testdb.php",
+                            url: "testdb.php?type=update",
+                            type: "POST"
+                        },
+                        create: {
+                            url: "testdb.php?type=create",
+                            dataType: "json",
+                            type: "PUT",
+                            complete: function (e) {
+                                $("#grid").data("kendoGrid").dataSource.read();
+                            }
+
+                        },
+                        destroy: {
+                            url: "testdb.php?type=destroy",
+                            dataType: "json",
                             type: "POST"
                         }
                     },
-                    error: function(e) {
+                    error: function (e) {
                         alert(e.responseText);
                     },
                     schema: {
@@ -99,17 +122,33 @@
                 }
             });
 
-            $(function() {
-                $("#grid").kendoGrid({
+            $(function () {
+                var grid = $("#grid").kendoGrid({
                     dataSource: {
                         transport: {
-                            read: "testdb.php",
+                            read: {
+                                url: "testdb.php"
+                            },
                             update: {
-                                url: "testdb.php",
+                                url: "testdb.php?type=update",
+                                type: "POST"
+                            },
+                            create: {
+                                url: "testdb.php?type=create",
+                                dataType: "json",
+                                type: "PUT",
+                                complete: function (e) {
+                                    $("#grid").data("kendoGrid").dataSource.read();
+                                }
+
+                            },
+                            destroy: {
+                                url: "testdb.php?type=destroy",
+                                dataType: "json",
                                 type: "POST"
                             }
                         },
-                        error: function(e) {
+                        error: function (e) {
                             alert(e.responseText);
                         },
                         schema: {
@@ -117,34 +156,56 @@
                             model: {
                                 id: "ID",
                                 fields: {
-                                    name: {editable: false},
-                                    sname: {validation: {required: true}}
+                                    name: {
+                                        validation: {
+                                            required: true
+                                        }
+                                        //editable: false
+                                    },
+                                    sname: {
+                                        validation: {
+                                            required: true
+                                        }
+                                    }
                                 }
                             }
                         }
                     },
-                    change: function() {
+                    filterable: {
+                        operators: {
+                            string: {
+                                contains: "มีคำว่า"
+                            }
+                        },
+                        messages: {
+                            info: "ใส่คำที่ต้องการค้นหา",
+                            filter: "ค้นหา",
+                            clear: "ยกเลิก"
+                        },
+                        extra: false
+                    },
+                    change: function () {
                         var text = "";
                         var grid = this;
 
-                        grid.select().each(function() {
+                        grid.select().each(function () {
                             var dataItem = grid.dataItem($(this));
                             text += dataItem.id + dataItem.name + "\n";
                         });
 
-                        alert(text);
+                        // alert(text);
                     },
                     selectable: true,
-                    columns: [{field: "name", title: "Firstname", width: 50},
-                        {field: "sname", title: "Lastname", width: 50},
+                    columns: [{field: "name", title: "Firstname", width: 10},
+                        {field: "sname", title: "Lastname", width: 10},
                         {command: [{
                                     name: "details",
-                                    click: function(e) {
+                                    click: function (e) {
                                         var tr = $(e.target).closest("tr"); // get the current table row (tr)                                        // get the data bound to the current table row
                                         var data = this.dataItem(tr);
                                         window.location.replace("info.php?id=" + data.id);                                      //alert("testdb2.php?id=" + data.id);
                                     }
-                                }], width: 12},
+                                }], width: 10},
                         {title: "Click delete", command: 'destroy', width: 10}],
                     ///detailTemplate: kendo.template($("#template").html()),
                     // detailInit: detailInit,
@@ -152,7 +213,10 @@
                     navigable: true, // enables keyboard navigation in the grid
                     toolbar: ["create", "save", "cancel"]  // adds save and cancel buttons
                 });
+
             });
+
+
 
         </script>
 
@@ -175,8 +239,8 @@
              });
              });**/
 
-            $(function() {
-                $(".k-add-button").click(function(e) {
+            $(function () {
+                $(".k-add-button").click(function (e) {
                     var listView = $("#grid").data("kendoGrid");
                     listView.addRow();
                     e.preventDefault();

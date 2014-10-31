@@ -15,7 +15,8 @@ $id = filter_input(INPUT_GET, "id");
 if ($verb == "GET") {
     $arr = array();
 
-    $rs = mysql_query("SELECT * FROM general_info WHERE ID = $id");
+    //$rs = mysql_query("SELECT general_info.*, address.* FROM general_info WHERE ID = $id");
+    $rs = mysql_query("SELECT general_info.*, address.* FROM general_info, address WHERE general_info.ID = $id AND address.id = $id");
 
     while ($obj = mysql_fetch_object($rs)) {
 
@@ -34,7 +35,7 @@ if ($verb == "POST") {
     $name = mysql_real_escape_string(filter_input(INPUT_POST, "name"));
     $sname = mysql_real_escape_string(filter_input(INPUT_POST, "sname"));
     $age = mysql_real_escape_string(filter_input(INPUT_POST, "age"));
-    $name_d = mysql_real_escape_string(filter_input(INPUT_POST, "named"));
+    $name_d = mysql_real_escape_string(filter_input(INPUT_POST, "name_d"));
     $relation = mysql_real_escape_string(filter_input(INPUT_POST, "relation"));
     $h_blood = mysql_real_escape_string(filter_input(INPUT_POST, "h_blood"));
     $tai_y = mysql_real_escape_string(filter_input(INPUT_POST, "tai_y"));
@@ -45,19 +46,25 @@ if ($verb == "POST") {
     $cabg = mysql_real_escape_string(filter_input(INPUT_POST, "cabg"));
     $brain_blood = mysql_real_escape_string(filter_input(INPUT_POST, "brain_blood"));
     $other = mysql_real_escape_string(filter_input(INPUT_POST, "other"));
-
     $smoke = mysql_real_escape_string(filter_input(INPUT_POST, "smoke"));
-
-
-    $whenCancelSmoke = mysql_real_escape_string(filter_input(INPUT_POST, "whenCancelSmoke"));
-    //if ($whenCancelSmoke != '') {
-     //   $dat = explode(' ', $whenCancelSmoke); // $day = "Wed Aug 17 2011 00:00:00 GMT+0700 (SE Asia Standard Time)"	
-      //  $whenCancelSmoke = date("d/m/Y", strtotime($dat[3] . "-" . $dat[1] . "-" . $dat[2] . " " . $dat[4]));
-    //}
-    //$whenCancelSmoke = date("d/m/Y", strtotime($whenCancelSmoke2));
+    $whenCancelSmoke = mysql_real_escape_string(filter_input(INPUT_POST, "whenCancelSmoke"));    
     $numberSmoke = mysql_real_escape_string(filter_input(INPUT_POST, "numberSmoke"));
 
     $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "ID"));
+    
+    $hn = mysql_real_escape_string(filter_input(INPUT_POST, "hn"));
+    $marriage = mysql_real_escape_string(filter_input(INPUT_POST, "marriage"));
+    $kum = mysql_real_escape_string(filter_input(INPUT_POST, "kum"));
+    $address_num = mysql_real_escape_string(filter_input(INPUT_POST, "address_num"));
+    $moo = mysql_real_escape_string(filter_input(INPUT_POST, "moo"));
+    $road = mysql_real_escape_string(filter_input(INPUT_POST, "road"));
+    $aumphor = mysql_real_escape_string(filter_input(INPUT_POST, "aumphor"));
+    $tumbol = mysql_real_escape_string(filter_input(INPUT_POST, "tumbol"));
+    $city = mysql_real_escape_string(filter_input(INPUT_POST, "city"));
+    $zipcode = mysql_real_escape_string(filter_input(INPUT_POST, "zipcode"));
+    $longitude = mysql_real_escape_string(filter_input(INPUT_POST, "longitude"));
+    $latitude = mysql_real_escape_string(filter_input(INPUT_POST, "latitude"));
+    $date_accp = mysql_real_escape_string(filter_input(INPUT_POST, "date_accp"));
 
     $rs = mysql_query("UPDATE general_info SET "
             . "name = '$name', "
@@ -74,30 +81,30 @@ if ($verb == "POST") {
             . "other = '$other', "
             . "smoke = '$smoke', "
             . "whenCancelSmoke = '$whenCancelSmoke',"
-            . "numberSmoke = '$numberSmoke' "
-            . "WHERE ID = $employeeId");
+            . "numberSmoke = '$numberSmoke', "
+            . "hn = '$hn', "
+            . "marriage = '$marriage', "
+            . "kum = '$kum' "            
+            . "WHERE ID = $employeeId") or die("Error in query: $rs. " . mysql_error());
+    
+    $rs2 = mysql_query("UPDATE address SET "            
+            . "address_num = '$address_num', "
+            . "moo = '$moo', "
+            . "road = '$road', "
+            . "aumphor = '$aumphor', "
+            . "tumbol = '$tumbol', "
+            . "city = '$city', "
+            . "zipcode = '$zipcode', "
+            . "longitude = '$longitude', "
+            . "latitude = '$latitude', "
+            . "date_accp = '$date_accp' "
+            . "WHERE ID = $employeeId") or die("Error in query: $rs. " . mysql_error());
 
     if ($rs) {
         echo json_encode($rs);
     } else {
         header("HTTP/1.1 500 Internal Server Error");
-        echo "UPDATE general_info SET "
-            . "name = '$name', "
-            . "sname = '$sname', "
-            . "age = '$age', "
-            . "name_d = '$name_d',"
-            . "relation = '$relation',"
-            . "h_blood = '$h_blood',"
-            . "tai_y = '$tai_y',"
-            . "h_fail = '$h_fail',"
-            . "hi_fat = '$hi_fat',"
-            . "h_lost_blood = '$h_lost_blood',"
-            . "h_big = '$h_big',"
-            . "other = '$other', "
-            . "smoke = '$smoke', "
-            . "whenCancelSmoke = '$whenCancelSmoke',"
-            . "numberSmoke = '$numberSmoke' "
-            . "WHERE ID = $employeeId";
+        
     }
 }
 ?>

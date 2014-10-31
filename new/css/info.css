@@ -24,7 +24,7 @@
 }
 table.allTable 
 {
-    width: 60%;
+    width: 70%;
 }
 tr.allTable  
 {
@@ -36,17 +36,21 @@ td.allTable
     width: 300px; 
 }
 
-
+input.k-textbox
+{
+    width: 100%;
+    
+}
 
 .actionButton
 {
     text-align: center;    
 }
 
-a.k-button.k-edit-button
+a.k-button.k-edit-button 
 {
     padding-top: 7px;
-    width: 70px;
+    width: 100px;
     height: 40px;
    
 }
@@ -54,8 +58,8 @@ a.k-button.k-edit-button
 a.k-button.k-delete-button
 {
     padding-top: 7px;
-    width: 80px;
-    height: 40px;
+    width: 50%;
+    height: 40%;
 }
 
 a.k-button.k-update-button
@@ -217,3 +221,48 @@ p span
 {
     display: block;
 }
+
+
+table.allTable {
+	//font-family: verdana,arial,sans-serif;
+	//font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+       
+}
+table.allTable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #9bdee5;
+        border-bottom: none;
+}
+table.allTable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+        border-top: none;
+}
+
+.k-grid td 
+{
+   text-align: center;                
+}
+
+.k-grid-header .k-header 
+{
+   text-align: center;   
+}
+
+ #map-canvas 
+ { 
+     height: 400px; 
+     width: 650px; 
+     margin: auto; 
+     margin-top: 25px;
+ }
