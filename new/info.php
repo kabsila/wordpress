@@ -36,9 +36,13 @@ if ($verb == "POST") {
         <!-- Kendo UI Web combined JavaScript -->
         <script src="js/kendo.web.min.js"></script>
         <script src="js/kendo.all.min.js"></script>
+         <script src="js/kendo3.all.min.js"></script>
         <script src="js/cultures/kendo.culture.th-TH.min.js"></script>
         <script src="js/templateLoader.js"></script>
-
+        
+       
+        
+    
         <link href="css/index.css" rel="stylesheet" />
         <link href="css/info.css" rel="stylesheet" />
         <link href="css/uploadfile.min.css" rel="stylesheet" />
@@ -70,12 +74,17 @@ if ($verb == "POST") {
                         <td><button class="bt-info" id="baseInfo" type="button">ข้อมูลพื้นฐาน</button></td>
                         <td><button class="bt-info" id="eye" type="button">ตา</button></td>
                         <td><button class="bt-info" id="tai" type="button">ไต</button></td>
-                        <td><button class="bt-info" id="social" type="button">ด้านจิตสังคม</button></td>
+                        
                     </tr>
                     <tr align="center">
                         <td><button class="bt-info" id="sugar" type="button">การควบคุมระดับน้ำตาล</button></td>
                         <td><button class="bt-info" id="blood" type="button">หัวใจและหลอดเลือด</button></td>
                         <td><button class="bt-info" id="foot" type="button">เท้า</button></td>
+                        
+                    </tr>
+                    <tr align="center">
+                        <td><button class="bt-info" id="planD" type="button">แผนการดูแล</button></td> 
+                        <td><button class="bt-info" id="social" type="button">ด้านจิตสังคม</button></td>
                         <td><button class="bt-info" id="process" type="button">ประมวลผล</button></td>
                     </tr>
                 </table>              
@@ -132,12 +141,15 @@ if ($verb == "POST") {
             <div id="socialInfo" style="width: 90%; margin-bottom: 25px;"></div>
         </div>
         <div id="processContainer" style="display: none;">            
-            <div id="processInfo" style="width: 800px; margin-bottom: 25px;"></div>
-            <div id="processSocial" style="width: 800px; margin-bottom: 25px;"></div>
+            <div id="processInfo" style="width: 800px; height: 500px; margin-bottom: 25px;"></div>
+            <div id="processSocial" style="width: 800px;  height: 500px; margin-bottom: 25px;"></div>
         </div>
-         <div id="planDContainer" style="display: block;">            
+         <div id="planDContainer" style="display: none;">
+            <div class="k-header k-shadow" style="width: 90%;"><font size="5">การเตรียมผู้ดูแล</font></div> 
             <div id="trainDInfo" style="width: 90%; margin-bottom: 25px;"></div>
+            <div class="k-header k-shadow" style="width: 90%;"><font size="5">แผนการดูแล</font></div>
             <div id="planDInfo" style="width: 90%; margin-bottom: 25px;"></div>
+            <div class="k-header k-shadow" style="width: 90%;"><font size="5">การเยี่ยมบ้าน</font></div>
             <div id="visitHomeInfo" style="width: 90%; margin-bottom: 25px;"></div>
         </div>
 
@@ -236,41 +248,118 @@ if ($verb == "POST") {
         $("#baseInfo").kendoButton({
             click: function (e) {
                 $("#baseInfoContainer").slideToggle(1000);
+                $("#footContainer").slideUp();
+                $("#taiContainer").slideUp();
+                $("#bloodContainer").slideUp();
+                $("#eyeContainer").slideUp();
+                $("#sugarContainer").slideUp();
+                $("#socialContainer").slideUp();
+                $("#processContainer").slideUp();
+                $("#planDContainer").slideUp();   
             }
         });
         $("#foot").kendoButton({
             click: function (e) {
                 $("#footContainer").slideToggle(1000);
+                $("#baseInfoContainer").slideUp();                
+                $("#taiContainer").slideUp();
+                $("#bloodContainer").slideUp();
+                $("#eyeContainer").slideUp();
+                $("#sugarContainer").slideUp();
+                $("#socialContainer").slideUp();
+                $("#processContainer").slideUp();
+                $("#planDContainer").slideUp();
             }
         });
         $("#tai").kendoButton({
             click: function (e) {
                 $("#taiContainer").slideToggle(1000);
+                $("#baseInfoContainer").slideUp();
+                $("#footContainer").slideUp();               
+                $("#bloodContainer").slideUp();
+                $("#eyeContainer").slideUp();
+                $("#sugarContainer").slideUp();
+                $("#socialContainer").slideUp();
+                $("#processContainer").slideUp();
+                $("#planDContainer").slideUp();
             }
         });
         $("#blood").kendoButton({
             click: function (e) {
                 $("#bloodContainer").slideToggle(1000);
+                $("#baseInfoContainer").slideUp();
+                $("#footContainer").slideUp();
+                $("#taiContainer").slideUp();                
+                $("#eyeContainer").slideUp();
+                $("#sugarContainer").slideUp();
+                $("#socialContainer").slideUp();
+                $("#processContainer").slideUp();
+                $("#planDContainer").slideUp();
             }
         });
         $("#eye").kendoButton({
             click: function (e) {
                 $("#eyeContainer").slideToggle(1000);
+                $("#baseInfoContainer").slideUp();
+                $("#footContainer").slideUp();
+                $("#taiContainer").slideUp();
+                $("#bloodContainer").slideUp();                
+                $("#sugarContainer").slideUp();
+                $("#socialContainer").slideUp();
+                $("#processContainer").slideUp();
+                $("#planDContainer").slideUp();
             }
         });
         $("#sugar").kendoButton({
             click: function (e) {
                 $("#sugarContainer").slideToggle(1000);
+                $("#baseInfoContainer").slideUp();
+                $("#footContainer").slideUp();
+                $("#taiContainer").slideUp();
+                $("#bloodContainer").slideUp();
+                $("#eyeContainer").slideUp();                
+                $("#socialContainer").slideUp();
+                $("#processContainer").slideUp();
+                $("#planDContainer").slideUp();
             }
         });
         $("#social").kendoButton({
             click: function (e) {
                 $("#socialContainer").slideToggle(1000);
+                $("#baseInfoContainer").slideUp();
+                $("#footContainer").slideUp();
+                $("#taiContainer").slideUp();
+                $("#bloodContainer").slideUp();
+                $("#eyeContainer").slideUp();
+                $("#sugarContainer").slideUp();                
+                $("#processContainer").slideUp();
+                $("#planDContainer").slideUp();
             }
         });
         $("#process").kendoButton({
             click: function (e) {                
-                $("#processContainer").slideToggle(1000);               
+                $("#processContainer").slideToggle(1000);
+                $("#baseInfoContainer").slideUp();
+                $("#footContainer").slideUp();
+                $("#taiContainer").slideUp();
+                $("#bloodContainer").slideUp();
+                $("#eyeContainer").slideUp();
+                $("#sugarContainer").slideUp();
+                $("#socialContainer").slideUp();                
+                $("#planDContainer").slideUp();
+            }
+        });
+         $("#planD").kendoButton({
+            click: function (e) {                
+                $("#planDContainer").slideToggle(1000);
+                $("#baseInfoContainer").slideUp();
+                $("#footContainer").slideUp();
+                $("#taiContainer").slideUp();
+                $("#bloodContainer").slideUp();
+                $("#eyeContainer").slideUp();
+                $("#sugarContainer").slideUp();
+                $("#socialContainer").slideUp();
+                $("#processContainer").slideUp();                
             }
         });
 
@@ -1744,7 +1833,7 @@ if ($verb == "POST") {
             
             $("#planDInfo").kendoGrid({
                 dataSource: dataSourcePlanD,
-               // selectable: true,
+                selectable: true,
                 toolbar: [{name: "create", text: "เพิ่มผลการตรวจ"}],
                 columns: [
                     {
@@ -1779,6 +1868,7 @@ if ($verb == "POST") {
                    $("#planDInfo").data("kendoGrid").dataSource.read();
                 },
                 navigable: true,
+               
                 batch: true
                 
             });
@@ -1804,9 +1894,9 @@ if ($verb == "POST") {
                 create: {
                     url: "get_db/getVisitHome_db.php?type=create&VisitHomeID=<?php echo $id; ?>",
                     dataType: "json",
-                    type: "PUT",
+                    type: "PUT",                    
                     complete: function (e) {
-                        $("#trainDInfo").data("kendoGrid").dataSource.read();
+                        $("#visitHomeInfo").data("kendoGrid").dataSource.read();
                     }
                 },
                 destroy: {
@@ -1846,55 +1936,47 @@ if ($verb == "POST") {
                 dataSource: dataSourceVisitHome,
                 selectable: true,
                 toolbar: [{name: "create", text: "เพิ่มผลการตรวจ"}],
-                columns: [
-                    {
-                        field: "visit_order",
-                        title: "การเยี่ยมครั้งที่",                        
-                        width: 10
-                    },
-                    {
-                                title: "ผู้เยี่ยม",
-                                columns: [ 
-                                {
-                                    field: "n",
-                                    title: "พยาบาล"
-                                    //width: 20
-                                },
-                                {
-                                    field: "osm",
-                                    title: "อสม."
-                                    //width: 20
-                                },
-                                {
-                                    field: "staff",
-                                    title: "เจ้าหน้าที่"
-                                    //width: 20
-                                }
-                                ]
-                    },
-                    {
-                        field: "rub_type",
-                        title: "บุคคลที่ได้รับการเยี่ยม",
-                        width: 20
-                    },
-                    
-                    {
+                columns: [{
+                            field: "visit_order",
+                            title: "ครั้งที่",
+                            width: 4
+                        },
+                        {
+                            title: "ผู้เยี่ยม",
+                            columns: [{
+                                field: "n",
+                                title: "พยาบาล",
+                                width: 9
+                            },{
+                                field: "osm",
+                                title: "อสม.",
+                                width: 9
+                            },{
+                                field: "staff",
+                                title: "เจ้าหน้าที่",
+                                width: 9
+                            }]
+                        },
+                        {
+                            field: "rub_type",
+                            title: "บุคคลที่ได้รับการเยี่ยม",
+                            width: 12
+                        },{
+                            field: "family_envi",
+                            title: "สภาวะแวดล้อมของครอบครัว",
+                            width: 30
+                        },{
                         command: ["edit", "destroy"],
                         title: "&nbsp;",
-                        width: 10
-                    }
-                ],
+                        width: 15
+                        }],
                 editable: "popup", //"inline",
                 navigable: true,
                 batch: true,
                 cancel: function(e) {
-                   $("#trainDInfo").data("kendoGrid").dataSource.read();
-                },
-                resizable: true,
-                sortable: {
-                    mode: "single",
-                    allowUnsort: false
-                }// enables keyboard navigation in the grid
+                   $("#visitHomeInfo").data("kendoGrid").dataSource.read();
+                }               
+                
             });
             
             

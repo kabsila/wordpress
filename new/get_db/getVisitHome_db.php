@@ -31,21 +31,27 @@ if ($type == "read") {
     echo "{\"data\":" . json_encode($arr) . "}";
 }
 
-if ($type == "updateTrainD") {
+if ($type == "update") {
 
     $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));  
     
-    $date = mysql_real_escape_string(filter_input(INPUT_POST, "date"));
-    $mainD = mysql_real_escape_string(filter_input(INPUT_POST, "main_d"));
-    $trainerName = mysql_real_escape_string(filter_input(INPUT_POST, "trainer_name"));    
+    $n = mysql_real_escape_string(filter_input(INPUT_POST, "n"));
+    $osm = mysql_real_escape_string(filter_input(INPUT_POST, "osm"));
+    $staff = mysql_real_escape_string(filter_input(INPUT_POST, "staff")); 
+    $visitOrder = mysql_real_escape_string(filter_input(INPUT_POST, "visit_order"));
+    $rubType = mysql_real_escape_string(filter_input(INPUT_POST, "rub_type"));
+    $familyEnvi = mysql_real_escape_string(filter_input(INPUT_POST, "family_envi"));
     
-    $number = mysql_real_escape_string(filter_input(INPUT_POST, "date_id"));
+    $number = mysql_real_escape_string(filter_input(INPUT_POST, "visit_number"));
     
-    $rs = mysql_query("UPDATE train_d SET "
-            . "date = '$date', "
-            . "main_d = '$mainD', "
-            . "trainer_name = '$trainerName' "                    
-            . "WHERE id = $employeeId AND date_id = $number") or die("Error in query: $rs. " . mysql_error());
+    $rs = mysql_query("UPDATE visit_home SET "
+            . "n = '$n', "
+            . "osm = '$osm', "
+            . "staff = '$staff', "
+            . "visit_order = '$visitOrder', "
+            . "rub_type = '$rubType', "
+            . "family_envi = '$familyEnvi' "                                
+            . "WHERE id = $employeeId AND visit_number = $number") or die("Error in query: $rs. " . mysql_error());
     if ($rs) {
         echo json_encode($rs);
     } else {
@@ -53,23 +59,26 @@ if ($type == "updateTrainD") {
     }
 }
 
-if ($type == "createTrainD") {
+if ($type == "create") {
 
     //$id2 = mysql_real_escape_string(filter_input(INPUT_POST, "id2"));
     //$dateFoot = mysql_real_escape_string(filter_input(INPUT_POST, "dateFoot"));
     // $resultFoot = mysql_real_escape_string(filter_input(INPUT_POST, "resultFoot"));    
 
-    $trainDID = filter_input(INPUT_GET, "trainDID");
+    $visitHomeID = filter_input(INPUT_GET, "VisitHomeID");
     $request_vars = Array();
     parse_str(file_get_contents('php://input'), $request_vars);
 
-    $date = mysql_real_escape_string($request_vars["date"]);
-    $mainD = mysql_real_escape_string($request_vars["main_d"]);
-    $trainerName = mysql_real_escape_string($request_vars["trainer_name"]);
+    $n = mysql_real_escape_string($request_vars["n"]);
+    $osm = mysql_real_escape_string($request_vars["osm"]);
+    $staff = mysql_real_escape_string($request_vars["staff"]);
+    $visitOrder = mysql_real_escape_string($request_vars["visit_order"]);
+    $rubType = mysql_real_escape_string($request_vars["rub_type"]);
+    $familyEnvi = mysql_real_escape_string($request_vars["family_envi"]);    
     
 
-    $rs = mysql_query("INSERT INTO train_d (id, date, main_d, trainer_name) VALUES "
-            . "('$trainDID', '$date', '$mainD', '$trainerName')") or die("Error in query: $rs. " . mysql_error());
+    $rs = mysql_query("INSERT INTO visit_home (id, n, osm, staff, visit_order, rub_type, family_envi) VALUES "
+            . "('$visitHomeID', '$n', '$osm', '$staff', '$visitOrder', '$rubType', '$familyEnvi')") or die("Error in query: $rs. " . mysql_error());
 
     if ($rs) {
 
@@ -80,13 +89,13 @@ if ($type == "createTrainD") {
     }
 }
 
-if ($type == "destroyTrainD") {
+if ($type == "destroy") {
 
     $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id")); 
    
-    $number = mysql_real_escape_string(filter_input(INPUT_POST, "date_id"));
+    $number = mysql_real_escape_string(filter_input(INPUT_POST, "visit_number"));
  //echo "DELETE FROM social WHERE id = $employeeId AND order = $number";
-    $rs = mysql_query("DELETE FROM train_d WHERE id = $employeeId AND date_id = $number") or die("Error in query: $rs. " . mysql_error());
+    $rs = mysql_query("DELETE FROM visit_home WHERE id = $employeeId AND visit_number = $number") or die("Error in query: $rs. " . mysql_error());
 
    
     if ($rs) {
@@ -97,88 +106,7 @@ if ($type == "destroyTrainD") {
     }
 }
 
-if ($type == "readPlanD") {
-    $id = filter_input(INPUT_GET, "id");
-    $arr = array();
-    
-    $arr2 = array();
-    $rs = mysql_query("SELECT * FROM plan_d WHERE id = $id") or die("Error in query: $rs. " . mysql_error());
-    while ($obj = mysql_fetch_object($rs)) {
 
-        $arr[] = $obj;
-    }
-    //echo "{\"dataFootDate\":" . json_encode($arr2) . "}";
-
-    echo "{\"data\":" . json_encode($arr) . "}";
-}
-
-if ($type == "updatePlanD") {
-
-    $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id"));  
-    
-    $mainTakecare = mysql_real_escape_string(filter_input(INPUT_POST, "main_takecare"));
-    $takecare = mysql_real_escape_string(filter_input(INPUT_POST, "takecare"));
-    $nameD = mysql_real_escape_string(filter_input(INPUT_POST, "name_d"));   
-    $note = mysql_real_escape_string(filter_input(INPUT_POST, "note")); 
-    
-    $number = mysql_real_escape_string(filter_input(INPUT_POST, "idd"));
-    
-    $rs = mysql_query("UPDATE plan_d SET "
-            . "main_takecare = '$mainTakecare', "
-            . "takecare = '$takecare', "
-            . "name_d = '$nameD', " 
-            . "note = '$note' "                   
-            . "WHERE id = $employeeId AND idd = $number") or die("Error in query: $rs. " . mysql_error());
-    if ($rs) {
-        echo json_encode($rs);
-    } else {
-        header("HTTP/1.1 500 Internal Server Error");
-    }
-}
-
-if ($type == "createPlanD") {
-
-    //$id2 = mysql_real_escape_string(filter_input(INPUT_POST, "id2"));
-    //$dateFoot = mysql_real_escape_string(filter_input(INPUT_POST, "dateFoot"));
-    // $resultFoot = mysql_real_escape_string(filter_input(INPUT_POST, "resultFoot"));    
-
-    $planDID = filter_input(INPUT_GET, "planDID");
-    $request_vars = Array();
-    parse_str(file_get_contents('php://input'), $request_vars);
-
-    $mainTakecare = mysql_real_escape_string($request_vars["main_takecare"]);
-    $takecare = mysql_real_escape_string($request_vars["takecare"]);
-    $nameD = mysql_real_escape_string($request_vars["name_d"]);
-    $note = mysql_real_escape_string($request_vars["note"]);    
-
-    $rs = mysql_query("INSERT INTO plan_d (id, main_takecare, takecare, name_d, note) VALUES "
-            . "('$planDID', '$mainTakecare', '$takecare', '$nameD', '$note')") or die("Error in query: $rs. " . mysql_error());
-
-    if ($rs) {
-
-        echo json_encode($request_vars);
-        //echo json_encode("OK");
-    } else {
-        header("HTTP/1.1 500 Internal Server Error");
-    }
-}
-
-if ($type == "destroyPlanD") {
-
-    $employeeId = mysql_real_escape_string(filter_input(INPUT_POST, "id")); 
-   
-    $number = mysql_real_escape_string(filter_input(INPUT_POST, "idd"));
- //echo "DELETE FROM social WHERE id = $employeeId AND order = $number";
-    $rs = mysql_query("DELETE FROM plan_d WHERE id = $employeeId AND idd = $number") or die("Error in query: $rs. " . mysql_error());
-
-   
-    if ($rs) {
-        echo json_encode($rs);
-    } else {
-        header("HTTP/1.1 500 Internal Server Error");
-        
-    }
-}
 
 
 
